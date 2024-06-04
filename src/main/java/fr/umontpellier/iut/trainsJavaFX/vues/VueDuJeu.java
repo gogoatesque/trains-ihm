@@ -13,7 +13,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -36,16 +35,11 @@ import javafx.scene.layout.VBox;
 public class VueDuJeu extends BorderPane {
 
     private final IJeu jeu;
-    private ObjectProperty<IJoueur> joueurCourantProperty;
-
     private VuePlateau plateau;
-
     private Label instruction;
-
     private Label nomJoueur;
-
     private Button passer;
-
+    private ObjectProperty<IJoueur> joueurCourantProperty;
     private VueJoueurCourant joueurCourant;
 
     public VueDuJeu(IJeu jeu) {
@@ -57,7 +51,7 @@ public class VueDuJeu extends BorderPane {
         joueurCourantProperty = new SimpleObjectProperty<>();
         joueurCourant = new VueJoueurCourant();
 
-        setTop(new VBox(nomJoueur,instruction));
+        setTop(instruction);
         setCenter(plateau);
         setRight(joueurCourant);
         setLeft(passer);

@@ -9,6 +9,7 @@ import fr.umontpellier.iut.trainsJavaFX.vues.VueDuJeu;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
