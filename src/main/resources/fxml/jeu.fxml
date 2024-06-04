@@ -7,13 +7,17 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import fr.umontpellier.iut.trainsJavaFX.vues.VuePlateau?>
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.umontpellier.iut.trainsJavaFX.vues.VueDuJeu">
+<?import fr.umontpellier.iut.trainsJavaFX.vues.VueDuJeu?>
+<?import fr.umontpellier.iut.trainsJavaFX.vues.VueJoueurCourant?>
+<?import javafx.scene.control.Button?>
+
+<fx:root type="BorderPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
    <center>
-      <VuePlateau fx:id="plateau" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <Pane>
+         <VuePlateau fx:id="plateau" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+      </Pane>
+
    </center>
-   <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </bottom>
    <top>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <Label fx:id="nomJoueur"/>
@@ -21,10 +25,14 @@
       </VBox>
    </top>
    <right>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox>
+         <VueJoueurCourant fx:id="vueJoueurCourant" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         </VueJoueurCourant>
+         <Button fx:id="passer" text="passer"/>
       </VBox>
+
    </right>
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </left>
-</BorderPane>
+</fx:root>

@@ -1,17 +1,9 @@
 package fr.umontpellier.iut.trainsJavaFX.vues;
 
-import fr.umontpellier.iut.trainsJavaFX.ICarte;
 import fr.umontpellier.iut.trainsJavaFX.IJeu;
 import fr.umontpellier.iut.trainsJavaFX.IJoueur;
-import fr.umontpellier.iut.trainsJavaFX.mecanique.cartes.Carte;
-import fr.umontpellier.iut.trainsJavaFX.mecanique.cartes.ListeDeCartes;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -48,7 +38,7 @@ public class VueDuJeu extends BorderPane {
     private Button passer;
     private ObjectProperty<IJoueur> joueurCourantProperty;
     @FXML
-    private VueJoueurCourant joueurCourant;
+    private VueJoueurCourant vueJoueurCourant;
 
     public VueDuJeu(IJeu jeu) {
         try {
@@ -62,27 +52,38 @@ public class VueDuJeu extends BorderPane {
         this.jeu = jeu;
         joueurCourantProperty = new SimpleObjectProperty<>();
     }
+
+    @FXML
+    public void initialize() {
+        HBox hbox = getMainJoueurCourant();
+        setBottom(hbox);
+    }
+
     public void creerBindings() {
         joueurCourantProperty.bind(jeu.joueurCourantProperty());
-        joueurCourant.joueurCourantProperty().bind(joueurCourantProperty);
-        passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasserParDefaut);
+        vueJoueurCourant.joueurCourantProperty().bind(joueurCourantProperty);
+       passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasserParDefaut);
 
-        joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
+         joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
             nomJoueur.setText(nouveauJoueur.getNom());
         });
 
-        joueurCourant.creerBindings();
+        vueJoueurCourant.creerBindings();
         for (IJoueur joueur: jeu.getJoueurs()){
-            joueur.mainProperty().addListener(joueurCourant.getChangementMain());
+            joueur.mainProperty().addListener(vueJoueurCourant.getChangementMain());
         }
         instruction.textProperty().bind(jeu.instructionProperty());
         plateau.prefWidthProperty().bind(getScene().widthProperty());
         plateau.prefHeightProperty().bind(getScene().heightProperty());
-        plateau.createBindings();
+        plateau.creerBindings();
     }
 
     public IJeu getJeu() {
         return jeu;
+    }
+
+    public HBox getMainJoueurCourant(){
+        return vueJoueurCourant.getCartesEnMain();
     }
 
     EventHandler<? super MouseEvent> actionPasserParDefaut = (mouseEvent -> getJeu().passerAEteChoisi());

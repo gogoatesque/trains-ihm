@@ -57,7 +57,7 @@ public class VuePlateau extends Pane {
         tuiles.getTransforms().add(scaleTuile);
     }
 
-    public void createBindings() {
+    public void creerBindings() {
         setDonneesPlateau(GestionJeu.getJeu().getPlateau());
         mapVille.setImage(plateau.getImageVille());
         definirScaleTransformation();
