@@ -13,6 +13,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,11 +38,16 @@ import java.io.IOException;
 public class VueDuJeu extends BorderPane {
 
     private final IJeu jeu;
+    @FXML
     private VuePlateau plateau;
+    @FXML
     private Label instruction;
+    @FXML
     private Label nomJoueur;
+    @FXML
     private Button passer;
     private ObjectProperty<IJoueur> joueurCourantProperty;
+    @FXML
     private VueJoueurCourant joueurCourant;
 
     public VueDuJeu(IJeu jeu) {
@@ -54,18 +60,7 @@ public class VueDuJeu extends BorderPane {
             e.printStackTrace();
         }
         this.jeu = jeu;
-        plateau = new VuePlateau();
-        instruction = new Label();
-        nomJoueur = new Label();
-        passer = new Button("passer");
         joueurCourantProperty = new SimpleObjectProperty<>();
-        joueurCourant = new VueJoueurCourant();
-
-        setTop(instruction);
-        setCenter(plateau);
-        setRight(joueurCourant);
-        setLeft(passer);
-        setBottom(joueurCourant.getCartesEnMain());
     }
     public void creerBindings() {
         joueurCourantProperty.bind(jeu.joueurCourantProperty());
@@ -83,7 +78,7 @@ public class VueDuJeu extends BorderPane {
         instruction.textProperty().bind(jeu.instructionProperty());
         plateau.prefWidthProperty().bind(getScene().widthProperty());
         plateau.prefHeightProperty().bind(getScene().heightProperty());
-        plateau.creerBindings();
+        plateau.createBindings();
     }
 
     public IJeu getJeu() {
