@@ -16,7 +16,6 @@
       <Pane>
          <VuePlateau fx:id="plateau" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
       </Pane>
-
    </center>
    <top>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -35,4 +34,7 @@
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </left>
+   <bottom>
+      <HBox fx:id="boiteCarteEnMain"/>
+   </bottom>
 </fx:root>

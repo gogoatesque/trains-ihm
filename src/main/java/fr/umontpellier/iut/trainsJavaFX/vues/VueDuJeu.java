@@ -7,11 +7,14 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 import java.io.IOException;
 
@@ -39,7 +42,8 @@ public class VueDuJeu extends BorderPane {
     private ObjectProperty<IJoueur> joueurCourantProperty;
     @FXML
     private VueJoueurCourant vueJoueurCourant;
-
+    @FXML
+    private HBox boiteCarteEnMain;
     public VueDuJeu(IJeu jeu) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/jeu.fxml"));
@@ -51,12 +55,6 @@ public class VueDuJeu extends BorderPane {
         }
         this.jeu = jeu;
         joueurCourantProperty = new SimpleObjectProperty<>();
-    }
-
-    @FXML
-    public void initialize() {
-        HBox hbox = getMainJoueurCourant();
-        setBottom(hbox);
     }
 
     public void creerBindings() {
@@ -76,6 +74,11 @@ public class VueDuJeu extends BorderPane {
         plateau.prefWidthProperty().bind(getScene().widthProperty());
         plateau.prefHeightProperty().bind(getScene().heightProperty());
         plateau.creerBindings();
+        boiteCarteEnMain = getMainJoueurCourant();
+        setBottom(boiteCarteEnMain);
+        boiteCarteEnMain.minWidthProperty().bind(getScene().widthProperty());
+        boiteCarteEnMain.setStyle("-fx-background-color: BLUE");
+        boiteCarteEnMain.setAlignment(Pos.CENTER);
     }
 
     public IJeu getJeu() {

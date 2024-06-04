@@ -48,6 +48,7 @@ public class VueJoueurCourant extends VBox {
                 VueCarte vueCarte = new VueCarte(carte);
                 vueCarte.setCarteChoisieListener((mouseEvent -> joueurCourantProperty.get().uneCarteDeLaMainAEteChoisie(((Button) mouseEvent.getSource()).getText())));
                 cartesEnMain.getChildren().add(vueCarte);
+                vueCarte.prefWidthProperty().bind(getScene().widthProperty().divide(joueurCourantProperty.get().mainProperty().getSize()));
             }
         });
 
