@@ -4,6 +4,8 @@ import fr.umontpellier.iut.trainsJavaFX.ICarte;
 import fr.umontpellier.iut.trainsJavaFX.IJoueur;
 import fr.umontpellier.iut.trainsJavaFX.mecanique.cartes.Carte;
 import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -40,13 +42,35 @@ public class VueJoueurCourant extends VBox {
     }
 
     public void creerBindings() {
+        cartesEnMain.spacingProperty().bind(new DoubleBinding() {
+            {
+                this.bind(joueurCourantProperty());
+                this.bind(joueurCourantProperty.get().mainProperty().sizeProperty());
+                this.bind(getScene().widthProperty());
+                this.bind(getScene().heightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                int nbCarte = cartesEnMain.getChildren().size();
+                if (nbCarte <= 1) {
+                    return 10;
+                } else {
+                    double tailleCarte = ((VueCarte) cartesEnMain.getChildren().get(0)).getWidthImage();
+                    System.out.println("taille : " +tailleCarte);
+                    System.out.println(tailleCarte * nbCarte + " pour " + getScene().getWidth());
+                    System.out.println((getScene().getWidth() - nbCarte * tailleCarte) / (nbCarte ));
+                    return ((getScene().getWidth() - nbCarte * tailleCarte) / (nbCarte-1)) - 2;
+                }
+            }
+        });
         joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
             cartesEnMain.getChildren().clear();
             for (ICarte carte : nouveauJoueur.mainProperty()) {
                 VueCarte vueCarte = new VueCarte(carte);
                 vueCarte.setCarteChoisieListener((mouseEvent -> joueurCourantProperty.get().uneCarteDeLaMainAEteChoisie(((VueCarte) mouseEvent.getSource()).getNomCarte())));
                 cartesEnMain.getChildren().add(vueCarte);
-                cartesEnMain.prefHeightProperty().bind(getScene().heightProperty().divide(4));
+                cartesEnMain.minHeightProperty().bind(getScene().heightProperty().divide(4));
+                cartesEnMain.maxHeightProperty().bind(getScene().heightProperty().divide(4));
                 vueCarte.creerBindings();
             }
         });

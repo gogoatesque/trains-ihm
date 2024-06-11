@@ -15,21 +15,22 @@ import javafx.scene.layout.StackPane;
  * <p>
  * On y définit le listener à exécuter lorsque cette carte a été choisie par l'utilisateur
  */
-public class VueCarte extends Button {
+public class VueCarte extends ImageView {
 
     private final ICarte carte;
+    private final double ratio;
 
     public VueCarte(ICarte carte) {
         super();
-        String url = "images/cartes/"+carte.getNom().replace(" ","_").toLowerCase().replace("é","e").replace("è","e")+".jpg";
+        Image image = new Image("images/cartes/"+carte.getNom().replace(" ","_").toLowerCase().replace("é","e").replace("è","e")+".jpg");
+        ratio = image.getWidth() / image.getHeight();
         this.carte = carte;
-        ImageView image = new ImageView(new Image(url));
-        image.setPreserveRatio (true);
-        setGraphic(image);
+        this.setImage(image);
+        setPreserveRatio(true);
     }
 
     public void creerBindings(){
-        ((ImageView) this.getGraphic()).fitHeightProperty().bind(((HBox)this.getParent()).prefHeightProperty());
+        this.fitHeightProperty().bind(((HBox)this.getParent()).heightProperty());
     }
 
     public void setCarteChoisieListener(EventHandler<MouseEvent> quandCarteEstChoisie) {
@@ -38,6 +39,10 @@ public class VueCarte extends Button {
 
     public String getNomCarte(){
         return carte.getNom();
+    }
+
+    public double getWidthImage(){
+        return getFitHeight()*ratio;
     }
 
 }
