@@ -32,4 +32,8 @@ public class VueCarte extends Button {
         setOnMouseClicked(quandCarteEstChoisie);
     }
 
+    public String getNomCarte(){
+        return carte.getNom();
+    }
+
 }

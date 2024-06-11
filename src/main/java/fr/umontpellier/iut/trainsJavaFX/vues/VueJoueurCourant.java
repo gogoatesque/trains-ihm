@@ -46,7 +46,7 @@ public class VueJoueurCourant extends VBox {
             cartesEnMain.getChildren().clear();
             for (ICarte carte : nouveauJoueur.mainProperty()) {
                 VueCarte vueCarte = new VueCarte(carte);
-                vueCarte.setCarteChoisieListener((mouseEvent -> joueurCourantProperty.get().uneCarteDeLaMainAEteChoisie(((Button) mouseEvent.getSource()).getText())));
+                vueCarte.setCarteChoisieListener((mouseEvent -> joueurCourantProperty.get().uneCarteDeLaMainAEteChoisie(((VueCarte) mouseEvent.getSource()).getNomCarte())));
                 cartesEnMain.getChildren().add(vueCarte);
                 vueCarte.prefWidthProperty().bind(getScene().widthProperty().divide(joueurCourantProperty.get().mainProperty().getSize()));
             }
@@ -69,15 +69,15 @@ public class VueJoueurCourant extends VBox {
         return changementMain;
     }
 
-    private Button trouverBoutonCarte(ICarte carteATrouver){
+    private VueCarte trouverBoutonCarte(ICarte carteATrouver){
         int index = 0;
         boolean carteTrouvee = false;
-        Button carteCherchee = null;
+        VueCarte carteCherchee = null;
         while (!carteTrouvee && index < cartesEnMain.getChildren().size()){
-            Button bouton = (Button) cartesEnMain.getChildren().get(index);
-            if (bouton.getText().equals(carteATrouver.getNom())){
+            VueCarte boutonCarte = (VueCarte) cartesEnMain.getChildren().get(index);
+            if (boutonCarte.getNomCarte().equals(carteATrouver.getNom())){
                 carteTrouvee = true;
-                carteCherchee = bouton;
+                carteCherchee = boutonCarte;
             }
             index++;
         }
