@@ -7,12 +7,10 @@ import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 
@@ -32,7 +30,7 @@ public class VueJoueurCourant extends VBox {
     public VueJoueurCourant(){
         joueurCourantProperty = new SimpleObjectProperty<>();
         cartesEnMain = new HBox();
-        cartesEnMain.setMaxSize(30,30);
+        cartesEnMain.setAlignment(Pos.CENTER);
     }
 
 
@@ -48,7 +46,8 @@ public class VueJoueurCourant extends VBox {
                 VueCarte vueCarte = new VueCarte(carte);
                 vueCarte.setCarteChoisieListener((mouseEvent -> joueurCourantProperty.get().uneCarteDeLaMainAEteChoisie(((VueCarte) mouseEvent.getSource()).getNomCarte())));
                 cartesEnMain.getChildren().add(vueCarte);
-                vueCarte.prefWidthProperty().bind(getScene().widthProperty().divide(joueurCourantProperty.get().mainProperty().getSize()));
+                cartesEnMain.prefHeightProperty().bind(getScene().heightProperty().divide(4));
+                vueCarte.creerBindings();
             }
         });
 

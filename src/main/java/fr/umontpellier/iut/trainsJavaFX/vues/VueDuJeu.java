@@ -77,8 +77,6 @@ public class VueDuJeu extends BorderPane {
         boiteCarteEnMain = getMainJoueurCourant();
         setBottom(boiteCarteEnMain);
         boiteCarteEnMain.minWidthProperty().bind(getScene().widthProperty());
-        boiteCarteEnMain.setStyle("-fx-background-color: BLUE");
-        boiteCarteEnMain.setAlignment(Pos.CENTER);
     }
 
     public IJeu getJeu() {

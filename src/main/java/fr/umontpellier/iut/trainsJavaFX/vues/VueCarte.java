@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -23,9 +24,12 @@ public class VueCarte extends Button {
         String url = "images/cartes/"+carte.getNom().replace(" ","_").toLowerCase().replace("é","e").replace("è","e")+".jpg";
         this.carte = carte;
         ImageView image = new ImageView(new Image(url));
-        image.fitWidthProperty().bind(widthProperty().multiply(0.7));
         image.setPreserveRatio (true);
         setGraphic(image);
+    }
+
+    public void creerBindings(){
+        ((ImageView) this.getGraphic()).fitHeightProperty().bind(((HBox)this.getParent()).prefHeightProperty());
     }
 
     public void setCarteChoisieListener(EventHandler<MouseEvent> quandCarteEstChoisie) {
