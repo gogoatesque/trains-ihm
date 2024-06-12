@@ -3,12 +3,16 @@ package fr.umontpellier.iut.trainsJavaFX.vues;
 import fr.umontpellier.iut.trainsJavaFX.GestionJeu;
 import fr.umontpellier.iut.trainsJavaFX.ICarte;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+
+import java.io.IOException;
 
 /**
  * Cette classe représente la vue d'une carte.
@@ -17,11 +21,20 @@ import javafx.scene.layout.StackPane;
  */
 public class VueCarte extends ImageView {
 
+    @FXML
     private final ICarte carte;
     private final double ratio;
 
     public VueCarte(ICarte carte) {
         super();
+/*        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/carte.fxml"));
+            loader.setRoot(this);
+            loader.setController(this);
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
         Image image = new Image("images/cartes/"+carte.getNom().replace(" ","_").toLowerCase().replace("é","e").replace("è","e")+".jpg");
         ratio = image.getWidth() / image.getHeight();
         this.carte = carte;

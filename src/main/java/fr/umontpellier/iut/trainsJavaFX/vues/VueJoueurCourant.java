@@ -9,12 +9,19 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static fr.umontpellier.iut.trainsJavaFX.GestionJeu.getJeu;
 
 /**
  * Cette classe présente les éléments appartenant au joueur courant.
@@ -25,11 +32,27 @@ public class VueJoueurCourant extends VBox {
 
     ObjectProperty<IJoueur> joueurCourantProperty;
     private HBox cartesEnMain;
-
+    @FXML
+    private Button passer;
     private ListChangeListener<ICarte> changementMain;
-
+    @FXML
+    private Label pointRails;
+    @FXML
+    private Label argent;
+    @FXML
+    private Label jetonRails;
+    @FXML
+    private Label score;
 
     public VueJoueurCourant(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/joueurCourant.fxml"));
+            loader.setRoot(this);
+            loader.setController(this);
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         joueurCourantProperty = new SimpleObjectProperty<>();
         cartesEnMain = new HBox();
         cartesEnMain.setAlignment(Pos.CENTER);
@@ -42,6 +65,8 @@ public class VueJoueurCourant extends VBox {
     }
 
     public void creerBindings() {
+        // Bouton passer
+        passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasserParDefaut);
         cartesEnMain.spacingProperty().bind(new DoubleBinding() {
             {
                 this.bind(joueurCourantProperty());
@@ -103,4 +128,7 @@ public class VueJoueurCourant extends VBox {
         }
         return carteCherchee;
     }
+
+    EventHandler<? super MouseEvent> actionPasserParDefaut = (mouseEvent -> getJeu().passerAEteChoisi());
+
 }

@@ -38,8 +38,7 @@ public class VueDuJeu extends BorderPane {
     private Label instruction;
     @FXML
     private Label nomJoueur;
-    @FXML
-    private Button passer;
+
     private ObjectProperty<IJoueur> joueurCourantProperty;
     @FXML
     private VueJoueurCourant vueJoueurCourant;
@@ -62,9 +61,7 @@ public class VueDuJeu extends BorderPane {
     }
 
     public void creerBindings() {
-        // Bouton passer
-        passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasserParDefaut);
-            joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
+        joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
             nomJoueur.setText(nouveauJoueur.getNom());
         });
 
@@ -97,10 +94,4 @@ public class VueDuJeu extends BorderPane {
     public HBox getMainJoueurCourant(){
         return vueJoueurCourant.getCartesEnMain();
     }
-
-    EventHandler<? super MouseEvent> actionPasserParDefaut = (mouseEvent -> getJeu().passerAEteChoisi());
-
-
-
-
 }

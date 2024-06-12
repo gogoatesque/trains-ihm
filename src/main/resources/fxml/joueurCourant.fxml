@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<?import javafx.scene.control.Button?>
+<fx:root type="VBox" prefHeight="250.0" prefWidth="250.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <Label fx:id="argent" text="ARGENT"/>
+    <Label fx:id="pointRails" text="POINT RAIL"/>
+    <Label fx:id="jetonRails" text="JETON RAIL"/>
+    <Label fx:id="score" text="SCORE"/>
+    <Button fx:id="passer" text="Passer"/>
+</fx:root>
