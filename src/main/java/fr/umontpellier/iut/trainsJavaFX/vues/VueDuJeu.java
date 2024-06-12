@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -44,6 +45,9 @@ public class VueDuJeu extends BorderPane {
     private VueJoueurCourant vueJoueurCourant;
     @FXML
     private HBox boiteCarteEnMain;
+    @FXML
+    private VBox boiteReserve;
+
     public VueDuJeu(IJeu jeu) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/jeu.fxml"));
@@ -58,22 +62,29 @@ public class VueDuJeu extends BorderPane {
     }
 
     public void creerBindings() {
-        joueurCourantProperty.bind(jeu.joueurCourantProperty());
-        vueJoueurCourant.joueurCourantProperty().bind(joueurCourantProperty);
-       passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasserParDefaut);
-
-         joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
+        // Bouton passer
+        passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasserParDefaut);
+            joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
             nomJoueur.setText(nouveauJoueur.getNom());
         });
 
+        // Vue Joueur Courant
+        joueurCourantProperty.bind(jeu.joueurCourantProperty());
+        vueJoueurCourant.joueurCourantProperty().bind(joueurCourantProperty);
         vueJoueurCourant.creerBindings();
         for (IJoueur joueur: jeu.getJoueurs()){
             joueur.mainProperty().addListener(vueJoueurCourant.getChangementMain());
         }
+
+        // Instructions
         instruction.textProperty().bind(jeu.instructionProperty());
+
+        // Plateau
         plateau.prefWidthProperty().bind(getScene().widthProperty());
         plateau.prefHeightProperty().bind(getScene().heightProperty());
         plateau.creerBindings();
+
+        // Main
         boiteCarteEnMain = getMainJoueurCourant();
         setBottom(boiteCarteEnMain);
         boiteCarteEnMain.minWidthProperty().bind(getScene().widthProperty());

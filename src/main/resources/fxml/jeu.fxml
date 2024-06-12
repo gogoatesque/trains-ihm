@@ -32,7 +32,7 @@
 
    </right>
    <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="boiteReserve" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </left>
    <bottom>
       <HBox fx:id="boiteCarteEnMain"/>

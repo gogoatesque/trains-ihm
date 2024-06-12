@@ -56,9 +56,6 @@ public class VueJoueurCourant extends VBox {
                     return 10;
                 } else {
                     double tailleCarte = ((VueCarte) cartesEnMain.getChildren().get(0)).getWidthImage();
-                    System.out.println("taille : " +tailleCarte);
-                    System.out.println(tailleCarte * nbCarte + " pour " + getScene().getWidth());
-                    System.out.println((getScene().getWidth() - nbCarte * tailleCarte) / (nbCarte ));
                     return ((getScene().getWidth() - nbCarte * tailleCarte) / (nbCarte-1)) - 2;
                 }
             }
