@@ -2,7 +2,7 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.Group?>
-<?import fr.umontpellier.iut.trainsJavaFX.vues.VueCarte?>
-<fx:root type="ImageView" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<fx:root type="Pane" stylesheets="@/css/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+    <ImageView fx:id="imageCarte" preserveRatio="true" >
+    </ImageView>
 </fx:root>

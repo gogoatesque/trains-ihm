@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
@@ -19,10 +20,12 @@ import java.io.IOException;
  * <p>
  * On y définit le listener à exécuter lorsque cette carte a été choisie par l'utilisateur
  */
-public class VueCarte extends ImageView {
+public class VueCarte extends Pane {
 
     private ICarte carte;
     private double ratio;
+    @FXML
+    private ImageView imageCarte;
 
     private EventHandler<MouseEvent> cliqueHandler;
 
@@ -39,20 +42,15 @@ public class VueCarte extends ImageView {
     }
 
     public VueCarte(ICarte carte){
-        super();
-        setCarte(carte);
-    }
-
-    public void setCarte(ICarte carte){
+        this();
         this.carte = carte;
-        Image image = new Image("images/cartes/"+carte.getNom().replace(" ","_").toLowerCase().replace("é","e").replace("è","e")+".jpg");
-        ratio = image.getWidth() / image.getHeight();
-        this.setImage(image);
-        setPreserveRatio(true);
     }
 
     public void creerBindings(){
-        this.fitHeightProperty().bind(((HBox)this.getParent()).heightProperty());
+        Image image = new Image("images/cartes/"+carte.getNom().replace(" ","_").toLowerCase().replace("é","e").replace("è","e")+".jpg");
+        ratio = image.getWidth() / image.getHeight();
+        imageCarte.setImage(image);
+        imageCarte.fitHeightProperty().bind(((HBox)this.getParent()).heightProperty());
     }
 
     public void setCarteChoisieListener(EventHandler<MouseEvent> quandCarteEstChoisie) {
@@ -64,7 +62,7 @@ public class VueCarte extends ImageView {
     }
 
     public double getWidthImage(){
-        return getFitHeight()*ratio;
+        return imageCarte.getFitHeight()*ratio;
     }
 
 }

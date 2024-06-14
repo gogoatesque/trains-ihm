@@ -69,13 +69,14 @@ public class VueJoueurCourant extends VBox {
         passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasserParDefaut);
         cartesEnMain.spacingProperty().bind(new DoubleBinding() {
             {
-                this.bind(joueurCourantProperty());
-                this.bind(joueurCourantProperty.get().mainProperty().sizeProperty());
+                this.bind(joueurCourantProperty);
+                this.bind(joueurCourantProperty.get().mainProperty().sizeProperty()); // cette ligne de binding ne fonctionne pas malgré de nombreux essais avec différentes façons d'obtenir le nombre de cartes en main
                 this.bind(getScene().widthProperty());
                 this.bind(getScene().heightProperty());
             }
             @Override
             protected double computeValue() {
+                System.out.println(joueurCourantProperty.get().mainProperty().sizeProperty().get());
                 int nbCarte = cartesEnMain.getChildren().size();
                 if (nbCarte <= 1) {
                     return 10;

@@ -7,9 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import fr.umontpellier.iut.trainsJavaFX.vues.VuePlateau?>
-<?import fr.umontpellier.iut.trainsJavaFX.vues.VueDuJeu?>
 <?import fr.umontpellier.iut.trainsJavaFX.vues.VueJoueurCourant?>
-<?import javafx.scene.control.Button?>
 
 <fx:root type="BorderPane" prefHeight="900" prefWidth="900" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
    <center>

@@ -44,7 +44,7 @@ public class VuePlateau extends Pane {
 
     private Scale scaleTuile;
 
-    public VuePlateau () {
+    public VuePlateau() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/plateau.fxml"));
             loader.setRoot(this);
