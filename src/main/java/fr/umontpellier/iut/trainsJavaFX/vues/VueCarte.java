@@ -21,23 +21,32 @@ import java.io.IOException;
  */
 public class VueCarte extends ImageView {
 
-    @FXML
-    private final ICarte carte;
-    private final double ratio;
+    private ICarte carte;
+    private double ratio;
 
-    public VueCarte(ICarte carte) {
+    private EventHandler<MouseEvent> cliqueHandler;
+
+    public VueCarte() {
         super();
-/*        try {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/carte.fxml"));
             loader.setRoot(this);
             loader.setController(this);
             loader.load();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
+    }
+
+    public VueCarte(ICarte carte){
+        super();
+        setCarte(carte);
+    }
+
+    public void setCarte(ICarte carte){
+        this.carte = carte;
         Image image = new Image("images/cartes/"+carte.getNom().replace(" ","_").toLowerCase().replace("é","e").replace("è","e")+".jpg");
         ratio = image.getWidth() / image.getHeight();
-        this.carte = carte;
         this.setImage(image);
         setPreserveRatio(true);
     }
