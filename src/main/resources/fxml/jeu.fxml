@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import fr.umontpellier.iut.trainsJavaFX.vues.VueAutresJoueurs?>
+<?import fr.umontpellier.iut.trainsJavaFX.vues.VueJoueurCourant?>
+<?import fr.umontpellier.iut.trainsJavaFX.vues.VuePlateau?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import fr.umontpellier.iut.trainsJavaFX.vues.VuePlateau?>
-<?import fr.umontpellier.iut.trainsJavaFX.vues.VueJoueurCourant?>
-
-<fx:root type="BorderPane" prefHeight="900" prefWidth="900" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<fx:root prefHeight="900" prefWidth="900" type="BorderPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
    <center>
       <Pane style="-fx-background-color: yellow" BorderPane.alignment="CENTER">
-         <VuePlateau fx:id="plateau" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+         <VuePlateau fx:id="plateau" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: yellow;" BorderPane.alignment="CENTER" />
       </Pane>
    </center>
    <top>
-      <VBox prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER" style="-fx-background-color: red">
-         <Label fx:id="nomJoueur"/>
-         <Label fx:id="instruction"/>
+      <VBox prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: red" BorderPane.alignment="CENTER">
+         <Label fx:id="nomJoueur" />
+         <Label fx:id="instruction" />
       </VBox>
    </top>
-   <right>
-      <Pane>
-         <VueJoueurCourant fx:id="vueJoueurCourant" prefHeight="250.0" prefWidth="250.0" BorderPane.alignment="CENTER" />
-      </Pane>
-   </right>
    <left>
-      <VBox fx:id="boiteReserve" prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER" style="-fx-background-color: blue"/>
+      <VBox fx:id="boiteReserve" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: blue" BorderPane.alignment="CENTER" />
    </left>
    <bottom>
-      <HBox fx:id="boiteCarteEnMain" style="-fx-background-color: purple"/>
+      <HBox fx:id="boiteCarteEnMain" style="-fx-background-color: purple" />
    </bottom>
+   <right>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <VueJoueurCourant fx:id="vueJoueurCourant" prefHeight="250.0" prefWidth="250.0" />
+            <VueAutresJoueurs />
+         </children>
+      </VBox>
+   </right>
 </fx:root>
