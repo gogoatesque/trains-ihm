@@ -35,7 +35,7 @@ import static fr.umontpellier.iut.trainsJavaFX.GestionJeu.getJeu;
  */
 public class VueJoueurCourant extends VBox {
 
-    ObjectProperty<IJoueur> joueurCourantProperty;
+    private ObjectProperty<IJoueur> joueurCourantProperty;
     private HBox cartesEnMain;
     private ListChangeListener<ICarte> changementMain;
     @FXML
@@ -74,25 +74,6 @@ public class VueJoueurCourant extends VBox {
     }
 
     public void creerBindings() {
-        // Main du joueur
-        cartesEnMain.spacingProperty().bind(new DoubleBinding() {
-            {
-                this.bind(joueurCourantProperty);
-                this.bind(joueurCourantProperty.get().mainProperty().sizeProperty()); // cette ligne de binding ne fonctionne pas malgré de nombreux essais avec différentes façons d'obtenir le nombre de cartes en main
-                this.bind(getScene().widthProperty());
-                this.bind(getScene().heightProperty());
-            }
-            @Override
-            protected double computeValue() {
-                int nbCarte = cartesEnMain.getChildren().size();
-                if (nbCarte <= 1) {
-                    return 10;
-                } else {
-                    double tailleCarte = ((VueCarte) cartesEnMain.getChildren().get(0)).getWidthImage();
-                    return ((getScene().getWidth() - nbCarte * tailleCarte) / (nbCarte-1)) - 2;
-                }
-            }
-        });
         joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
             cartesEnMain.getChildren().clear();
             for (ICarte carte : nouveauJoueur.mainProperty()) {
@@ -103,6 +84,57 @@ public class VueJoueurCourant extends VBox {
                 cartesEnMain.maxHeightProperty().bind(getScene().heightProperty().divide(4));
                 vueCarte.creerBindings();
             }
+
+            // Main du joueur
+            cartesEnMain.spacingProperty().bind(new DoubleBinding() {
+                {
+                    this.bind(joueurCourantProperty);
+                    this.bind(nouveauJoueur.mainProperty().sizeProperty());
+                    this.bind(getScene().widthProperty());
+                    this.bind(getScene().heightProperty());
+                }
+                @Override
+                protected double computeValue() {
+                    int nbCarte = cartesEnMain.getChildren().size();
+                    if (nbCarte == 0){
+                        return 0;
+                    }
+                    else {
+                        double tailleCarte = ((VueCarte) cartesEnMain.getChildren().get(0)).getWidthImage();
+                        if (nbCarte <= 5) {
+                            return tailleCarte;
+                        } else {
+                            return ((getScene().getWidth() - nbCarte * tailleCarte) / (nbCarte - 1)) - 1;
+                        }
+                    }
+                }
+            });
+
+            // argent
+            labelArgent.textProperty().bind(nouveauJoueur.argentProperty().asString());
+
+            // points rails
+            labelPointRails.textProperty().bind(nouveauJoueur.pointsRailsProperty().asString());
+            labelPointRails.textProperty().addListener((source, ancien, nouveau) -> {
+                if (nouveau.equals("0")){
+                    imagePointRails.setImage(new Image("images/boutons/rail.png"));
+                }
+                else{
+                    imagePointRails.setImage(new Image("images/boutons/rails.png"));
+                }
+            });
+
+            // Jetons rails
+            labelJetonRails.textProperty().bind(nouveauJoueur.nbJetonsRailsProperty().asString());
+
+            // points de victoire alias score
+            labelScore.textProperty().bind(nouveauJoueur.scoreProperty().asString());
+
+            // deck
+            labelDeck.textProperty().bind(nouveauJoueur.piocheProperty().sizeProperty().asString());
+
+            // défausse
+            labelDeck.textProperty().bind(nouveauJoueur.defausseProperty().sizeProperty().asString());
         });
 
         changementMain = change -> {
@@ -112,32 +144,6 @@ public class VueJoueurCourant extends VBox {
                 cartesEnMain.getChildren().remove(trouverBoutonCarte(carteEnlevee));
             }
         };
-
-        // argent
-        labelArgent.textProperty().bind(getJeu().joueurCourantProperty().get().argentProperty().asString());
-
-        // points rails
-        labelPointRails.textProperty().bind(getJeu().joueurCourantProperty().get().pointsRailsProperty().asString());
-        labelPointRails.textProperty().addListener((observableValue, ancien, nouveau) -> {
-            if (nouveau.equals("0")){
-                imagePointRails.setImage(new Image("images/boutons/rail.png"));
-            }
-            else{
-                imagePointRails.setImage(new Image("images/boutons/rails.png"));
-            }
-        });
-
-        // Jetons rails
-        labelJetonRails.textProperty().bind(getJeu().joueurCourantProperty().get().nbJetonsRailsProperty().asString());
-
-        // points de victoire alias score
-        labelScore.textProperty().bind(getJeu().joueurCourantProperty().get().scoreProperty().asString());
-
-        // deck
-        labelDeck.textProperty().bind(getJeu().joueurCourantProperty().get().piocheProperty().sizeProperty().asString());
-
-        // défausse
-        labelDeck.textProperty().bind(getJeu().joueurCourantProperty().get().defausseProperty().sizeProperty().asString());
     }
 
     public HBox getCartesEnMain() {
