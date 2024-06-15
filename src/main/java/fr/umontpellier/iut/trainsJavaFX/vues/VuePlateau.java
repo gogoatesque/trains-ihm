@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.SVGPath;
@@ -205,7 +206,7 @@ public class VuePlateau extends Pane {
     }
 
     private void ajouteRailATuile(Tuile t, Joueur j, Circle c) {
-        c.setStyle("-fx-background-color: "+CouleursJoueurs.couleursBackgroundJoueur.get(j.getCouleur()));
+        c.setFill(Paint.valueOf(CouleursJoueurs.couleursBackgroundJoueur.get(j.getCouleur())));
     }
 
     private void choixTuile(MouseEvent event) {
