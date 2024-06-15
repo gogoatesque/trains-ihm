@@ -13,12 +13,11 @@
       </Pane>
    </center>
    <top>
-      <HBox>
-         <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="416.0" BorderPane.alignment="CENTER">
-            <Label fx:id="nomJoueur" />
+      <HBox  >
+         <VBox stylesheets="@/css/style.css" styleClass="top" style="-fx-background-image: url(images/fond_instructions.png);" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="416.0" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS" spacing="15" alignment="CENTER">
+            <Label fx:id="nomJoueur"/>
             <Label fx:id="instruction" />
          </VBox>
-         <Region prefWidth="410.0" HBox.hgrow="ALWAYS" />
          <HBox alignment="TOP_CENTER">
             <ImageView fx:id="passer" fitWidth="40" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -34,7 +33,7 @@
 
    </top>
    <left>
-      <VBox fx:id="boiteReserve" style="-fx-background-color: RED"/>
+      <VBox fx:id="boiteReserve"/>
    </left>
    <bottom>
       <HBox fx:id="boiteCarteEnMain" />
