@@ -66,6 +66,10 @@ public class VueCarte extends Pane {
         return carte.getNom();
     }
 
+    public ICarte getCarte() {
+        return carte;
+    }
+
     public double getWidthImage(){
         return imageCarte.getFitHeight()*ratio;
     }

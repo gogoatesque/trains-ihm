@@ -42,6 +42,7 @@ public class VueJoueurCourant extends VBox {
     @FXML
     private StackPane cartesRecues;
     private ListChangeListener<ICarte> changementMain;
+    private ListChangeListener<ICarte> changementJouees;
     private ListChangeListener<ICarte> changementRecu;
     @FXML
     private Label labelArgent;
@@ -168,10 +169,36 @@ public class VueJoueurCourant extends VBox {
             labelDeck.textProperty().bind(nouveauJoueur.defausseProperty().sizeProperty().asString());
 
             // cartes jouées
-
+            cartesJouees.getChildren().clear();
+            changementJouees = change -> {
+                while (change.next()){
+                    if (change.wasAdded()){
+                        ICarte carte = change.getAddedSubList().get(0);
+                        VueCarte vueCarte = new VueCarte(carte);
+                        vueCarte.creerBindings();
+                        cartesJouees.getChildren().add(vueCarte);
+                    }
+                    else if (change.wasRemoved()){
+                        ICarte carte = change.getRemoved().get(0);
+                        cartesJouees.getChildren().removeIf(vueCarte -> ((VueCarte) vueCarte).getCarte().equals(carte));
+                    }
+                }
+            };
+            nouveauJoueur.cartesRecuesProperty().addListener(changementJouees);
 
             // cartes reçues
             cartesRecues.getChildren().clear();
+            changementRecu = change -> {
+                while (change.next()){
+                    if (change.wasAdded()){
+                        ICarte carte = change.getAddedSubList().get(0);
+                        VueCarte vueCarte = new VueCarte(carte);
+                        vueCarte.creerBindings();
+                        cartesRecues.getChildren().add(vueCarte);
+                    }
+                }
+            };
+            nouveauJoueur.cartesRecuesProperty().addListener(changementRecu);
 
         });
     }
