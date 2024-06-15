@@ -92,10 +92,11 @@ public class VueDuJeu extends BorderPane {
 
         //Reserve
         setLeft(boiteReserve);
-        boiteReserve.setStyle("-fx-background-color: lightblue;");
         for (ICarte carte : jeu.getReserve()) {
             VueCarte vueCarte = new VueCarte(carte);
             boiteReserve.getChildren().add(vueCarte);
+            vueCarte.creerBindings();
+            vueCarte.setCarteChoisieListener(mouseEvent -> jeu.uneCarteDeLaReserveEstAchetee(((VueCarte) mouseEvent.getSource()).getNomCarte()));
             boiteReserve.minWidthProperty().bind(getScene().widthProperty().divide(8));
             boiteReserve.maxWidthProperty().bind(getScene().widthProperty().divide(8));
         }
