@@ -2,6 +2,8 @@ package fr.umontpellier.iut.trainsJavaFX.vues;
 
 import fr.umontpellier.iut.trainsJavaFX.GestionJeu;
 import fr.umontpellier.iut.trainsJavaFX.ICarte;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,6 +53,9 @@ public class VueCarte extends Pane {
         ratio = image.getWidth() / image.getHeight();
         imageCarte.setImage(image);
         imageCarte.fitHeightProperty().bind(((HBox)this.getParent()).heightProperty());
+        imageCarte.hoverProperty().addListener((observableValue, ancien, nouveau) -> {
+            // code pour rendre la carte plus grande
+        });
     }
 
     public void setCarteChoisieListener(EventHandler<MouseEvent> quandCarteEstChoisie) {
