@@ -1,31 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import fr.umontpellier.iut.trainsJavaFX.vues.VueAutresJoueurs?>
-<?import fr.umontpellier.iut.trainsJavaFX.vues.VueJoueurCourant?>
-<?import fr.umontpellier.iut.trainsJavaFX.vues.VuePlateau?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import fr.umontpellier.iut.trainsJavaFX.vues.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<fx:root prefHeight="900" prefWidth="900" type="BorderPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<fx:root prefHeight="900" prefWidth="900" style="-fx-background-image: url(images/icons/table.png);" type="BorderPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <Pane style="-fx-background-color: yellow" BorderPane.alignment="CENTER">
-         <VuePlateau fx:id="plateau" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: yellow;" BorderPane.alignment="CENTER" />
+      <Pane BorderPane.alignment="CENTER">
+         <VuePlateau fx:id="plateau" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
       </Pane>
    </center>
    <top>
-      <VBox prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: red" BorderPane.alignment="CENTER">
+      <VBox prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <Label fx:id="nomJoueur" />
          <Label fx:id="instruction" />
       </VBox>
    </top>
    <left>
-      <VBox fx:id="boiteReserve" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: blue" BorderPane.alignment="CENTER" />
+      <VBox fx:id="boiteReserve" prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </left>
    <bottom>
-      <HBox fx:id="boiteCarteEnMain" style="-fx-background-color: purple" />
+      <HBox fx:id="boiteCarteEnMain" />
    </bottom>
    <right>
       <VBox BorderPane.alignment="CENTER">
