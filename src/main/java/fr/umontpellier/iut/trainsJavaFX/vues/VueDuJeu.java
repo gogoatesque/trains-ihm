@@ -73,9 +73,6 @@ public class VueDuJeu extends BorderPane {
         joueurCourantProperty.bind(jeu.joueurCourantProperty());
         vueJoueurCourant.joueurCourantProperty().bind(joueurCourantProperty);
         vueJoueurCourant.creerBindings();
-        for (IJoueur joueur: jeu.getJoueurs()){
-            joueur.mainProperty().addListener(vueJoueurCourant.getChangementMain());
-        }
 
         // Instructions
         instruction.textProperty().bind(jeu.instructionProperty());

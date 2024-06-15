@@ -37,7 +37,12 @@ public class VueJoueurCourant extends VBox {
 
     private ObjectProperty<IJoueur> joueurCourantProperty;
     private HBox cartesEnMain;
+    @FXML
+    private StackPane cartesJouees;
+    @FXML
+    private StackPane cartesRecues;
     private ListChangeListener<ICarte> changementMain;
+    private ListChangeListener<ICarte> changementRecu;
     @FXML
     private Label labelArgent;
     @FXML
@@ -65,6 +70,8 @@ public class VueJoueurCourant extends VBox {
         joueurCourantProperty = new SimpleObjectProperty<>();
         cartesEnMain = new HBox();
         cartesEnMain.setAlignment(Pos.CENTER);
+        cartesJouees = new StackPane();
+        cartesRecues = new StackPane();
     }
 
 
@@ -74,14 +81,18 @@ public class VueJoueurCourant extends VBox {
     }
 
     public void creerBindings() {
+        cartesEnMain.minHeightProperty().bind(getScene().heightProperty().divide(4));
+        cartesEnMain.maxHeightProperty().bind(getScene().heightProperty().divide(4));
         joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
+
+            EventHandler<MouseEvent> carteEnMainChoisi =  (mouseCliqued ->
+                    nouveauJoueur.uneCarteDeLaMainAEteChoisie(((VueCarte) mouseCliqued.getSource()).getNomCarte())
+            );
             cartesEnMain.getChildren().clear();
             for (ICarte carte : nouveauJoueur.mainProperty()) {
                 VueCarte vueCarte = new VueCarte(carte);
-                vueCarte.setCarteChoisieListener((mouseEvent -> joueurCourantProperty.get().uneCarteDeLaMainAEteChoisie(((VueCarte) mouseEvent.getSource()).getNomCarte())));
+                vueCarte.setCarteChoisieListener(carteEnMainChoisi);
                 cartesEnMain.getChildren().add(vueCarte);
-                cartesEnMain.minHeightProperty().bind(getScene().heightProperty().divide(4));
-                cartesEnMain.maxHeightProperty().bind(getScene().heightProperty().divide(4));
                 vueCarte.creerBindings();
             }
 
@@ -109,6 +120,26 @@ public class VueJoueurCourant extends VBox {
                     }
                 }
             });
+            changementMain = change -> {
+                while (change.next()){
+                    if (change.wasRemoved()) {
+                        ICarte carteEnlevee = change.getRemoved().get(0);
+                        cartesEnMain.getChildren().remove(trouverBoutonCarte(carteEnlevee));
+                    }
+                    else if(change.wasAdded()){
+                        for (ICarte carteAjoutee : change.getAddedSubList()) {
+                            VueCarte vueCarte = new VueCarte(carteAjoutee);
+                            vueCarte.setCarteChoisieListener(carteEnMainChoisi);
+                            cartesEnMain.getChildren().add(vueCarte);
+                            vueCarte.creerBindings();
+                        }
+                    }
+                }
+            };
+            nouveauJoueur.mainProperty().addListener(changementMain);
+
+
+
 
             // argent
             labelArgent.textProperty().bind(nouveauJoueur.argentProperty().asString());
@@ -135,23 +166,26 @@ public class VueJoueurCourant extends VBox {
 
             // défausse
             labelDeck.textProperty().bind(nouveauJoueur.defausseProperty().sizeProperty().asString());
-        });
 
-        changementMain = change -> {
-            change.next();
-            if (change.wasRemoved()){
-                ICarte carteEnlevee = change.getRemoved().get(0);
-                cartesEnMain.getChildren().remove(trouverBoutonCarte(carteEnlevee));
-            }
-        };
+            // cartes jouées
+
+
+            // cartes reçues
+            cartesRecues.getChildren().clear();
+
+        });
     }
 
     public HBox getCartesEnMain() {
         return cartesEnMain;
     }
 
-    public ListChangeListener<ICarte> getChangementMain() {
-        return changementMain;
+    public StackPane getcartesJouees() {
+        return cartesJouees;
+    }
+
+    public StackPane getcartesRecues() {
+        return cartesRecues;
     }
 
     private VueCarte trouverBoutonCarte(ICarte carteATrouver){
