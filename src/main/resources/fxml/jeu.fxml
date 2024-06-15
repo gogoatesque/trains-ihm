@@ -34,7 +34,7 @@
 
    </top>
    <left>
-      <VBox fx:id="boiteReserve" prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="boiteReserve" style="-fx-background-color: RED"/>
    </left>
    <bottom>
       <HBox fx:id="boiteCarteEnMain" />

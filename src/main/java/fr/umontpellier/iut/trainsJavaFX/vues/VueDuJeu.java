@@ -1,12 +1,15 @@
 package fr.umontpellier.iut.trainsJavaFX.vues;
 
+import fr.umontpellier.iut.trainsJavaFX.ICarte;
 import fr.umontpellier.iut.trainsJavaFX.IJeu;
 import fr.umontpellier.iut.trainsJavaFX.IJoueur;
+import fr.umontpellier.iut.trainsJavaFX.mecanique.cartes.Carte;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -57,6 +60,8 @@ public class VueDuJeu extends BorderPane {
         }
         this.jeu = jeu;
         joueurCourantProperty = new SimpleObjectProperty<>();
+        boiteReserve = new VBox();
+        boiteReserve.setAlignment(Pos.CENTER);
     }
 
     public void creerBindings() {
@@ -84,6 +89,16 @@ public class VueDuJeu extends BorderPane {
         boiteCarteEnMain = getMainJoueurCourant();
         setBottom(boiteCarteEnMain);
         boiteCarteEnMain.minWidthProperty().bind(getScene().widthProperty());
+
+        //Reserve
+        setLeft(boiteReserve);
+        boiteReserve.setStyle("-fx-background-color: lightblue;");
+        for (ICarte carte : jeu.getReserve()) {
+            VueCarte vueCarte = new VueCarte(carte);
+            boiteReserve.getChildren().add(vueCarte);
+            boiteReserve.minWidthProperty().bind(getScene().widthProperty().divide(8));
+            boiteReserve.maxWidthProperty().bind(getScene().widthProperty().divide(8));
+        }
         // bouton passer
         passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasser);
     }
