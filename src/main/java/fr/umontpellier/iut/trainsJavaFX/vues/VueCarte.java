@@ -49,7 +49,7 @@ public class VueCarte extends Pane {
     }
 
     public void creerBindings(){
-        Image image = new Image("images/cartes/"+carte.getNom().replace(" ","_").toLowerCase().replace("é","e").replace("è","e")+".jpg");
+        Image image = new Image("images/cartes/"+carte.getNom().replace(" ","_").toLowerCase().replace("é","e").replace("è","e").replace("ô","o")+".jpg");
         ratio = image.getWidth() / image.getHeight();
         imageCarte.setImage(image);
         imageCarte.fitHeightProperty().bind(((Pane)this.getParent()).heightProperty());
