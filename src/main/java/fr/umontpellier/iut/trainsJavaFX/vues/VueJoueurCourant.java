@@ -7,14 +7,19 @@ import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
@@ -33,16 +38,22 @@ public class VueJoueurCourant extends VBox {
     ObjectProperty<IJoueur> joueurCourantProperty;
     private HBox cartesEnMain;
     @FXML
-    private Button passer;
+    private ImageView passer;
     private ListChangeListener<ICarte> changementMain;
     @FXML
-    private Label pointRails;
+    private Label labelArgent;
     @FXML
-    private Label argent;
+    private ImageView imagePointRails;
     @FXML
-    private Label jetonRails;
+    private Label labelPointRails;
     @FXML
-    private Label score;
+    private Label labelJetonRails;
+    @FXML
+    private Label labelScore;
+    @FXML
+    private Label labelDeck;
+    @FXML
+    private Label labelDefausse;
 
     public VueJoueurCourant(){
         try {
@@ -65,8 +76,7 @@ public class VueJoueurCourant extends VBox {
     }
 
     public void creerBindings() {
-        // Bouton passer
-        passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasserParDefaut);
+        // Main du joueur
         cartesEnMain.spacingProperty().bind(new DoubleBinding() {
             {
                 this.bind(joueurCourantProperty);
@@ -76,7 +86,6 @@ public class VueJoueurCourant extends VBox {
             }
             @Override
             protected double computeValue() {
-                System.out.println(joueurCourantProperty.get().mainProperty().sizeProperty().get());
                 int nbCarte = cartesEnMain.getChildren().size();
                 if (nbCarte <= 1) {
                     return 10;
@@ -105,6 +114,36 @@ public class VueJoueurCourant extends VBox {
                 cartesEnMain.getChildren().remove(trouverBoutonCarte(carteEnlevee));
             }
         };
+
+        // argent
+        labelArgent.textProperty().bind(getJeu().joueurCourantProperty().get().argentProperty().asString());
+
+        // points rails
+        labelPointRails.textProperty().bind(getJeu().joueurCourantProperty().get().pointsRailsProperty().asString());
+        labelPointRails.textProperty().addListener((observableValue, ancien, nouveau) -> {
+            if (nouveau.equals("0")){
+                imagePointRails.setImage(new Image("images/boutons/rail.png"));
+            }
+            else{
+                imagePointRails.setImage(new Image("images/boutons/rails.png"));
+            }
+        });
+
+        // Jetons rails
+        labelJetonRails.textProperty().bind(getJeu().joueurCourantProperty().get().nbJetonsRailsProperty().asString());
+
+        // points de victoire alias score
+        labelScore.textProperty().bind(getJeu().joueurCourantProperty().get().scoreProperty().asString());
+
+        // deck
+        labelDeck.textProperty().bind(getJeu().joueurCourantProperty().get().piocheProperty().sizeProperty().asString());
+
+        // défausse
+        labelDeck.textProperty().bind(getJeu().joueurCourantProperty().get().defausseProperty().sizeProperty().asString());
+
+
+        // bouton passer
+        passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasser);
     }
 
     public HBox getCartesEnMain() {
@@ -130,6 +169,7 @@ public class VueJoueurCourant extends VBox {
         return carteCherchee;
     }
 
-    EventHandler<? super MouseEvent> actionPasserParDefaut = (mouseEvent -> getJeu().passerAEteChoisi());
+
+    EventHandler<? super MouseEvent> actionPasser = (mouseEvent -> getJeu().passerAEteChoisi());
 
 }
