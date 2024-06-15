@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import fr.umontpellier.iut.trainsJavaFX.vues.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <fx:root prefHeight="900" prefWidth="900" style="-fx-background-image: url(images/icons/table.png);" type="BorderPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
@@ -11,10 +13,25 @@
       </Pane>
    </center>
    <top>
-      <VBox prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <Label fx:id="nomJoueur" />
-         <Label fx:id="instruction" />
-      </VBox>
+      <HBox>
+         <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="416.0" BorderPane.alignment="CENTER">
+            <Label fx:id="nomJoueur" />
+            <Label fx:id="instruction" />
+         </VBox>
+         <Region prefWidth="410.0" HBox.hgrow="ALWAYS" />
+         <HBox alignment="TOP_CENTER">
+            <ImageView fx:id="passer" fitWidth="40" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/boutons/passer.png" />
+               </image>
+            </ImageView>
+            <padding>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+            </padding>
+         </HBox>
+
+      </HBox>
+
    </top>
    <left>
       <VBox fx:id="boiteReserve" prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER" />

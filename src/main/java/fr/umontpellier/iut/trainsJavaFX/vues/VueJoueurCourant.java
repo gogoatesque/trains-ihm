@@ -37,8 +37,6 @@ public class VueJoueurCourant extends VBox {
 
     ObjectProperty<IJoueur> joueurCourantProperty;
     private HBox cartesEnMain;
-    @FXML
-    private ImageView passer;
     private ListChangeListener<ICarte> changementMain;
     @FXML
     private Label labelArgent;
@@ -140,10 +138,6 @@ public class VueJoueurCourant extends VBox {
 
         // défausse
         labelDeck.textProperty().bind(getJeu().joueurCourantProperty().get().defausseProperty().sizeProperty().asString());
-
-
-        // bouton passer
-        passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasser);
     }
 
     public HBox getCartesEnMain() {
@@ -168,8 +162,4 @@ public class VueJoueurCourant extends VBox {
         }
         return carteCherchee;
     }
-
-
-    EventHandler<? super MouseEvent> actionPasser = (mouseEvent -> getJeu().passerAEteChoisi());
-
 }

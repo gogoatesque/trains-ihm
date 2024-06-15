@@ -4,13 +4,16 @@ import fr.umontpellier.iut.trainsJavaFX.IJeu;
 import fr.umontpellier.iut.trainsJavaFX.IJoueur;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 
 
@@ -40,6 +43,8 @@ public class VueDuJeu extends BorderPane {
     private HBox boiteCarteEnMain;
     @FXML
     private VBox boiteReserve;
+    @FXML
+    private ImageView passer;
 
     public VueDuJeu(IJeu jeu) {
         try {
@@ -79,6 +84,8 @@ public class VueDuJeu extends BorderPane {
         boiteCarteEnMain = getMainJoueurCourant();
         setBottom(boiteCarteEnMain);
         boiteCarteEnMain.minWidthProperty().bind(getScene().widthProperty());
+        // bouton passer
+        passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasser);
     }
 
     public IJeu getJeu() {
@@ -88,4 +95,5 @@ public class VueDuJeu extends BorderPane {
     public HBox getMainJoueurCourant(){
         return vueJoueurCourant.getCartesEnMain();
     }
+    EventHandler<? super MouseEvent> actionPasser = (mouseEvent -> getJeu().passerAEteChoisi());
 }
