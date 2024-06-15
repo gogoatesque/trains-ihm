@@ -8,12 +8,12 @@
 
 <fx:root prefHeight="900" prefWidth="900" style="-fx-background-image: url(images/icons/table.png);" type="BorderPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <Pane BorderPane.alignment="CENTER">
+      <HBox>
          <VuePlateau fx:id="plateau" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-      </Pane>
+      </HBox>
    </center>
    <top>
-      <HBox  >
+      <HBox>
          <VBox stylesheets="@/css/style.css" styleClass="top" style="-fx-background-image: url(images/fond_instructions.png);" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="416.0" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS" spacing="15" alignment="CENTER">
             <Label fx:id="nomJoueur"/>
             <Label fx:id="instruction" />

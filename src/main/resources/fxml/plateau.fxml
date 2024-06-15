@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.Group?>
 <fx:root type="Pane" stylesheets="@/css/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-    <ImageView fx:id="mapVille" preserveRatio="true" >
+    <ImageView fx:id="mapVille" preserveRatio="true">
     </ImageView>
     <Group fx:id="tuiles"/>
 </fx:root>
