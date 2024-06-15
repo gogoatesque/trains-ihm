@@ -17,6 +17,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
+
 import java.io.IOException;
 
 
@@ -67,6 +69,7 @@ public class VueDuJeu extends BorderPane {
     public void creerBindings() {
         joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
             nomJoueur.setText(nouveauJoueur.getNom());
+            nomJoueur.setTextFill(Paint.valueOf(CouleursJoueurs.couleursBackgroundJoueur.get(nouveauJoueur.getCouleur())));
         });
 
         // Vue Joueur Courant
