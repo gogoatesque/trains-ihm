@@ -101,7 +101,7 @@
          </HBox>
       </children>
    </HBox>
-   <HBox spacing="10.0">
+   <HBox alignment="CENTER" spacing="10.0">
       <Label fx:id="labelCarteJouees" text="Cartes jouées :" wrapText="true" />
       <StackPane fx:id="cartesJouees" />
       <Label fx:id="labelCartesRecues" text="Cartes reçues :" wrapText="true" />
