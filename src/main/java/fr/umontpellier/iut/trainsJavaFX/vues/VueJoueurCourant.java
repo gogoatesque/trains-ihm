@@ -17,6 +17,7 @@ import javafx.stage.Popup;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -110,7 +111,7 @@ public class VueJoueurCourant extends VBox {
             }
             else if (change.wasRemoved()){
                 for (ICarte carteEnlevee : change.getRemoved()) {
-                    pioche.removeIf(vueCarte -> ((VueCarte) vueCarte).getCarte().equals(carteEnlevee)); ////////////////////////////////////////////////////////////////////////////
+                    enleverCarteDeListe(pioche,carteEnlevee);
                 }
             }
         }};
@@ -123,7 +124,7 @@ public class VueJoueurCourant extends VBox {
                 }
                 else if (change.wasRemoved()){
                      for (ICarte carteEnlevee : change.getRemoved()) {
-                         defausse.removeIf(vueCarte -> ((VueCarte) vueCarte).getCarte().equals(carteEnlevee)); ////////////////////////////////////////////////////////////////////////////
+                         enleverCarteDeListe(defausse,carteEnlevee);
                      }
                 }
             }
@@ -288,7 +289,7 @@ public class VueJoueurCourant extends VBox {
             while (change.next()){
                 if (change.wasRemoved()) {
                     ICarte carteEnlevee = change.getRemoved().get(0);
-                    cartesEnMain.getChildren().remove(trouverBoutonCarte(carteEnlevee));
+                    cartesEnMain.getChildren().remove(trouverVueCarteDansMain(carteEnlevee));
                 }
                 else if(change.wasAdded()){
                     for (ICarte carteAjoutee : change.getAddedSubList()) {
@@ -319,7 +320,7 @@ public class VueJoueurCourant extends VBox {
         return changementDefausse;
     }
 
-    private VueCarte trouverBoutonCarte(ICarte carteATrouver){
+    private VueCarte trouverVueCarteDansMain(ICarte carteATrouver){
         int index = 0;
         boolean carteTrouvee = false;
         VueCarte carteCherchee = null;
@@ -332,5 +333,16 @@ public class VueJoueurCourant extends VBox {
             index++;
         }
         return carteCherchee;
+    }
+
+    private void enleverCarteDeListe(List<ICarte> listeCarte, ICarte carte){
+        Iterator<ICarte> itListeCarte = listeCarte.iterator();
+        boolean carteTrouvee = false;
+        while (itListeCarte.hasNext() && !carteTrouvee){
+            if (itListeCarte.next().getNom().equals(carte.getNom())){
+                itListeCarte.remove();
+                carteTrouvee = true;
+            }
+        }
     }
 }
