@@ -65,10 +65,11 @@ public class VueCarte extends Pane {
         });
     }
 
-    public void creerBindingsCarteEnMain(){
+    public void creerBindingsCarteAvecTaille(){
         creerBindings();
         imageCarte.fitHeightProperty().bind(((Pane)this.getParent()).heightProperty());
     }
+
 
     public void setActionCarteChoisie(EventHandler<MouseEvent> quandCarteEstChoisie) {
         setOnMouseClicked(quandCarteEstChoisie);
