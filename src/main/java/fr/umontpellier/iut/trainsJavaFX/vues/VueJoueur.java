@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Paint;
 
 import java.io.IOException;
 
@@ -41,6 +42,7 @@ public class VueJoueur extends HBox {
 
     public void creerBindings(){
         nomJoueur.setText(joueur.getNom());
+        nomJoueur.setTextFill(Paint.valueOf(CouleursJoueurs.couleursBackgroundJoueur.get(joueur.getCouleur())));
         labelJetonRails.setText(String.valueOf(joueur.nbJetonsRailsProperty().get()));
         labelScore.textProperty().bind(joueur.scoreProperty().asString());
         labelDeck.setText(String.valueOf(joueur.piocheProperty().get().size()));
