@@ -178,7 +178,7 @@ public class VueJoueurCourant extends VBox {
                     }
                     else {
                         double tailleCarte = ((VueCarte) cartesEnMain.getChildren().get(0)).getWidthImage();
-                        if (nbCarte <= 5) {
+                        if (nbCarte*(tailleCarte*2-1)<cartesEnMain.getWidth()*1.1) {
                             return tailleCarte;
                         } else {
                             return ((getScene().getWidth() - nbCarte * tailleCarte) / (nbCarte - 1)) - 1;
