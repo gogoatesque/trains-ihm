@@ -45,5 +45,6 @@ public class VueJoueur extends HBox {
         labelScore.textProperty().bind(joueur.scoreProperty().asString());
         labelDeck.setText(String.valueOf(joueur.piocheProperty().get().size()));
         labelDefausse.setText(String.valueOf(joueur.defausseProperty().get().size()));
+
     }
 }

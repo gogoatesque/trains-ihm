@@ -3,6 +3,6 @@
 <?import javafx.scene.layout.FlowPane?>
 
 
-<fx:root alignment="CENTER" style="-fx-background-color: black;" type="FlowPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<fx:root alignment="CENTER" style="-fx-background-color: black; -fx-background-radius: 10;" type="FlowPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
 
 </fx:root>

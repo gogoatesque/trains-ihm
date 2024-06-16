@@ -25,3 +25,7 @@ SVGPath {
     -fx-font-family: "Gotham";
     -fx-font-size: 18;
 }
+
+.labelJoueur {
+    -fx-font-family: Gotham;
+}

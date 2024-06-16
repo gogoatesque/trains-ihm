@@ -8,39 +8,40 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<fx:root alignment="CENTER" spacing="25.0" type="HBox" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-    <Label fx:id="nomJoueur"/>
-    <HBox>
-        <ImageView fx:id="imageJetonRails" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+<fx:root alignment="CENTER" spacing="15.0" prefWidth="300" type="HBox" stylesheets="@/css/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+style="-fx-background-image: url(images/icons/conteneurAutreJoueur.jpg); -fx-background-size: contain;">
+    <Label fx:id="nomJoueur" alignment="CENTER"/>
+    <HBox spacing="5" alignment="CENTER">
+        <ImageView fx:id="imageJetonRails" fitWidth="25" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../images/boutons/point_rails.png" />
             </image>
         </ImageView>
-        <Label fx:id="labelJetonRails"/>
+        <Label fx:id="labelJetonRails" styleClass="labelJoueur"/>
     </HBox>
-    <HBox>
-        <ImageView fx:id="imageScore" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+    <HBox spacing="5" alignment="CENTER">
+        <ImageView fx:id="imageScore" fitWidth="35" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../images/boutons/score.png" />
             </image>
         </ImageView>
-        <Label fx:id="labelScore"/>
+        <Label fx:id="labelScore" styleClass="labelJoueur"/>
     </HBox>
-    <HBox>
-        <ImageView fx:id="imageDeck" fitWidth="60" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+    <HBox spacing="5" alignment="CENTER">
+        <ImageView fx:id="imageDeck" fitWidth="35" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
             <image>
                 <Image url="@../images/boutons/deck.png" />
             </image>
         </ImageView>
-        <Label fx:id="labelDeck"/>
+        <Label fx:id="labelDeck" styleClass="labelJoueur"/>
     </HBox>
-    <HBox>
-        <ImageView fx:id="imageDefausse" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" rotate="172.5" HBox.hgrow="ALWAYS">
+    <HBox spacing="5" alignment="CENTER">
+        <ImageView fx:id="imageDefausse" fitWidth="35" pickOnBounds="true" preserveRatio="true" rotate="172.5" HBox.hgrow="ALWAYS">
             <image>
                 <Image url="@../images/boutons/defausse.png" />
             </image>
         </ImageView>
-        <Label fx:id="labelDefausse"/>
+        <Label fx:id="labelDefausse" styleClass="labelJoueur"/>
     </HBox>
 
 </fx:root>
