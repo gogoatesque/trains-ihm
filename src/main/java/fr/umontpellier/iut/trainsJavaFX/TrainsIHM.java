@@ -67,9 +67,7 @@ public class TrainsIHM extends Application {
 
         jeu.finDePartieProperty().addListener((source, ancien, nouveau) -> {
             if (nouveau) {
-                arreterJeu();
-                VueResultats vueResultats = new VueResultats(this);
-                primaryStage.setScene(new Scene(vueResultats));
+                resultatDeFin();
             }
         });
         jeu.run(); // le jeu doit être démarré après que les bindings ont été mis en place
@@ -103,8 +101,17 @@ public class TrainsIHM extends Application {
         alert.setContentText("On arrête de jouer ?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Platform.exit();
+            resultatDeFin();
         }
+    }
+
+    public void resultatDeFin(){
+        primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            event.consume();
+        });
+        VueResultats vueResultats = new VueResultats(this);
+        primaryStage.setScene(new Scene(vueResultats));
     }
 
     public Jeu getJeu() {
