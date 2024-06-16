@@ -24,8 +24,8 @@ import static fr.umontpellier.iut.trainsJavaFX.GestionJeu.getJeu;
  */
 public class VueAutresJoueurs extends VBox {
 
-    @FXML
-    private Label nbJetonGare;
+/*    @FXML
+    private Label nbJetonGare;*/
     private List<? extends IJoueur> joueursSansCourant;
 
     public VueAutresJoueurs() {

@@ -4,8 +4,15 @@ import fr.umontpellier.iut.trainsJavaFX.mecanique.plateau.Plateau;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SplitMenuButton;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +26,32 @@ public class VueChoixJoueurs extends Stage {
 
     private final ObservableList<String> nomsJoueurs;
     private Plateau plateauChoisi;
+    @FXML
+    Spinner<Integer> spinner;
+    @FXML
+    private ComboBox<String> plateau;
+    @FXML
+    private Button jouer;
+    @FXML
+    private Button quitter;
 
     public VueChoixJoueurs() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/choixJoueurs.fxml"));
+            loader.setRoot(this);
+            loader.setController(this);
+            loader.load();
+            setTitle("Choix Joueurs");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         nomsJoueurs = FXCollections.observableArrayList();
+    }
+
+    @FXML
+    public void initialize() {
+        plateau.getItems().addAll("Tokyo", "Osaka");
+        plateau.setValue("Osaka");
     }
 
     public List<String> getNomsJoueurs() {
@@ -31,7 +61,9 @@ public class VueChoixJoueurs extends Stage {
     /**
      * Définit l'action à exécuter lorsque la liste des participants est correctement initialisée
      */
-    public void setNomsDesJoueursDefinisListener(ListChangeListener<String> quandLesNomsDesJoueursSontDefinis) {}
+    public void setNomsDesJoueursDefinisListener(ListChangeListener<String> quandLesNomsDesJoueursSontDefinis) {
+
+    }
 
     /**
      * Vérifie que tous les noms des participants sont renseignés
@@ -59,7 +91,7 @@ public class VueChoixJoueurs extends Stage {
      * Retourne le nombre de participants à la partie que l'utilisateur a renseigné
      */
     protected int getNombreDeJoueurs() {
-        throw new RuntimeException("Methode à implémenter");
+        return spinner.getValue();
     }
 
     /**
