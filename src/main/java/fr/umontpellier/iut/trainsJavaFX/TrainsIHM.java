@@ -39,6 +39,7 @@ public class TrainsIHM extends Application {
         if (avecVueChoixJoueurs) {
             vueChoixJoueurs = new VueChoixJoueurs();
             vueChoixJoueurs.setNomsDesJoueursDefinisListener(quandLesNomsJoueursSontDefinis);
+            vueChoixJoueurs.setResizable(false);
             vueChoixJoueurs.show();
         } else {
             demarrerPartie();

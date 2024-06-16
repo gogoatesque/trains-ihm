@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" prefHeight="900" prefWidth="900" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" spacing="10.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
     <ImageView>
         <Image url="@../images/logotrains.jpg" />
     </ImageView>
@@ -19,7 +26,7 @@
       </children>
    </HBox>
    <VBox fx:id="joueurVBox" prefHeight="200.0" prefWidth="100.0" />
-   <ComboBox prefWidth="150.0" fx:id="plateau"/>
+   <ComboBox fx:id="plateau" prefWidth="150.0" />
    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
       <children>
          <Button fx:id="jouer" text="Jouer" />
