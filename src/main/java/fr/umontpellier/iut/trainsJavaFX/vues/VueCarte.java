@@ -2,6 +2,7 @@ package fr.umontpellier.iut.trainsJavaFX.vues;
 
 import fr.umontpellier.iut.trainsJavaFX.GestionJeu;
 import fr.umontpellier.iut.trainsJavaFX.ICarte;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -57,8 +58,7 @@ public class VueCarte extends Pane {
 
         ImageView visualisationCarte = new ImageView(image);
         visualisationCarte.setPreserveRatio(true);
-        visualisationCarte.fitHeightProperty().bind(getScene().heightProperty().divide(3));
-        visualisationCarte.fitWidthProperty().bind(getScene().widthProperty().divide(5));
+        visualisationCarte.fitHeightProperty().bind(getScene().heightProperty().divide(2.5));
         Popup popupCarte = new Popup();
         popupCarte.getContent().add(visualisationCarte);
         imageCarte.hoverProperty().addListener((observableValue, ancien, nouveau) -> {
@@ -95,7 +95,7 @@ public class VueCarte extends Pane {
         return imageCarte.getFitHeight()*ratio;
     }
 
-    public ImageView getImageCarte() {
-        return imageCarte;
+    public DoubleProperty imageWidthPropety(){
+        return imageCarte.fitWidthProperty();
     }
 }

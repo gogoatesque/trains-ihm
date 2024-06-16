@@ -113,7 +113,7 @@ public class VueDuJeu extends BorderPane {
             stackPane.maxHeightProperty().bind(boiteReserve.heightProperty().divide(7));
             vueCarte.creerBindings();
             vueCarte.setRotate(-90);
-            vueCarte.getImageCarte().fitWidthProperty().bind(stackPane.heightProperty());
+            vueCarte.imageWidthPropety().bind(stackPane.heightProperty());
             vueCarte.setCarteChoisieListener(mouseEvent -> jeu.uneCarteDeLaReserveEstAchetee(((VueCarte) mouseEvent.getSource()).getNomCarte()));
             nombreCarte.textProperty().bind(reserveVal.get(carte.getNom()).asString());
         }
