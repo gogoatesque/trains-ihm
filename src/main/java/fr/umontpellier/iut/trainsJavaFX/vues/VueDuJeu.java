@@ -49,8 +49,6 @@ public class VueDuJeu extends BorderPane {
     @FXML
     private FlowPane boiteReserve;
     @FXML
-    private StackPane cartesRecues;
-    @FXML
     private ImageView passer;
 
     public VueDuJeu(IJeu jeu) {
@@ -130,9 +128,6 @@ public class VueDuJeu extends BorderPane {
 
         // bouton passer
         passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasser);
-
-        //cartes reçues
-        cartesRecues = vueJoueurCourant.getcartesRecues();
     }
 
     public IJeu getJeu() {

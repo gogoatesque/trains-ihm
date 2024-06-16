@@ -102,4 +102,10 @@
          </HBox>
       </children>
    </HBox>
+   <VBox>
+      <Label text="Cartes jouées :"/>
+      <StackPane fx:id="cartesJouees"/>
+      <Label text="Cartes reçues :"/>
+      <StackPane fx:id="cartesRecues"/>
+   </VBox>
 </fx:root>

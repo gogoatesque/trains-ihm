@@ -174,17 +174,19 @@ public class VueJoueurCourant extends VBox {
                 while (change.next()){
                     if (change.wasAdded()){
                         ICarte carte = change.getAddedSubList().get(0);
+                        System.out.println("joué : " + carte.getNom());
                         VueCarte vueCarte = new VueCarte(carte);
-                        vueCarte.creerBindings();
                         cartesJouees.getChildren().add(vueCarte);
+                        vueCarte.creerBindings();
                     }
                     else if (change.wasRemoved()){
                         ICarte carte = change.getRemoved().get(0);
                         cartesJouees.getChildren().removeIf(vueCarte -> ((VueCarte) vueCarte).getCarte().equals(carte));
                     }
                 }
+                System.out.println("cartes jouées : " + cartesJouees.getChildren());
             };
-            nouveauJoueur.cartesRecuesProperty().addListener(changementJouees);
+            nouveauJoueur.cartesEnJeuProperty().addListener(changementJouees);
 
             // cartes reçues
             cartesRecues.getChildren().clear();
@@ -192,15 +194,18 @@ public class VueJoueurCourant extends VBox {
                 while (change.next()){
                     if (change.wasAdded()){
                         ICarte carte = change.getAddedSubList().get(0);
+                        System.out.println("reçu : " + carte.getNom());
                         VueCarte vueCarte = new VueCarte(carte);
-                        vueCarte.creerBindings();
                         cartesRecues.getChildren().add(vueCarte);
+                        vueCarte.creerBindings();
                     }
                 }
+                System.out.println("reçues : " + cartesRecues.getChildren());
             };
             nouveauJoueur.cartesRecuesProperty().addListener(changementRecu);
 
         });
+
     }
 
     public HBox getCartesEnMain() {
