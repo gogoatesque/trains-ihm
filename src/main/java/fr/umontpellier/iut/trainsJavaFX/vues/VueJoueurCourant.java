@@ -94,7 +94,7 @@ public class VueJoueurCourant extends VBox {
                 VueCarte vueCarte = new VueCarte(carte);
                 vueCarte.setCarteChoisieListener(carteEnMainChoisi);
                 cartesEnMain.getChildren().add(vueCarte);
-                vueCarte.creerBindings();
+                vueCarte.creerBindingsCarteEnMain();
             }
 
             // Main du joueur
@@ -132,7 +132,7 @@ public class VueJoueurCourant extends VBox {
                             VueCarte vueCarte = new VueCarte(carteAjoutee);
                             vueCarte.setCarteChoisieListener(carteEnMainChoisi);
                             cartesEnMain.getChildren().add(vueCarte);
-                            vueCarte.creerBindings();
+                            vueCarte.creerBindingsCarteEnMain();
                         }
                     }
                 }
