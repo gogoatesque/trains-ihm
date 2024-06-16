@@ -3,7 +3,6 @@ package fr.umontpellier.iut.trainsJavaFX.vues;
 import fr.umontpellier.iut.trainsJavaFX.ICarte;
 import fr.umontpellier.iut.trainsJavaFX.IJeu;
 import fr.umontpellier.iut.trainsJavaFX.IJoueur;
-import fr.umontpellier.iut.trainsJavaFX.mecanique.cartes.Carte;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -88,6 +87,8 @@ public class VueDuJeu extends BorderPane {
         vueJoueurCourant.creerBindings();
         for (IJoueur joueur : jeu.getJoueurs()){
             joueur.mainProperty().addListener(vueJoueurCourant.getChangementMain(joueur));
+            joueur.piocheProperty().addListener(vueJoueurCourant.getChangementPioche());
+            joueur.defausseProperty().addListener(vueJoueurCourant.getChangementDefausse());
             joueur.cartesEnJeuProperty().addListener(vueJoueurCourant.getChangementJouees());
             joueur.cartesRecuesProperty().addListener(vueJoueurCourant.getChangementRecu());
         }
@@ -133,7 +134,7 @@ public class VueDuJeu extends BorderPane {
             vueCarte.creerBindings();
             vueCarte.setRotate(-90);
             vueCarte.imageWidthPropety().bind(stackPane.heightProperty());
-            vueCarte.setCarteChoisieListener(mouseEvent -> jeu.uneCarteDeLaReserveEstAchetee(((VueCarte) mouseEvent.getSource()).getNomCarte()));
+            vueCarte.setActionCarteChoisie(mouseEvent -> jeu.uneCarteDeLaReserveEstAchetee(((VueCarte) mouseEvent.getSource()).getNomCarte()));
             nombreCarte.textProperty().bind(reserveVal.get(carte.getNom()).asString());
         }
 

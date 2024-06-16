@@ -2,31 +2,22 @@ package fr.umontpellier.iut.trainsJavaFX.vues;
 
 import fr.umontpellier.iut.trainsJavaFX.ICarte;
 import fr.umontpellier.iut.trainsJavaFX.IJoueur;
-import fr.umontpellier.iut.trainsJavaFX.mecanique.cartes.Carte;
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.Popup;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import static fr.umontpellier.iut.trainsJavaFX.GestionJeu.getJeu;
+import java.util.List;
 
 /**
  * Cette classe présente les éléments appartenant au joueur courant.
@@ -54,10 +45,23 @@ public class VueJoueurCourant extends VBox {
     private Label labelJetonRails;
     @FXML
     private Label labelScore;
+    private ListChangeListener<ICarte> changementPioche;
+    private List<ICarte> pioche;
+    @FXML
+    private ImageView imageDeck;
     @FXML
     private Label labelDeck;
+    private ListChangeListener<ICarte> changementDefausse;
+    private List<ICarte> defausse;
+    @FXML
+    private ImageView imageDefausse;
     @FXML
     private Label labelDefausse;
+
+    private Popup popupDeck ;
+    private Popup popupDefausse ;
+    private Popup popupJouees ;
+    private Popup popupRecues ;
 
     public VueJoueurCourant(){
         try {
@@ -77,8 +81,8 @@ public class VueJoueurCourant extends VBox {
                 if (change.wasAdded()){
                     ICarte carte = change.getAddedSubList().get(0);
                     VueCarte vueCarte = new VueCarte(carte);
-                    vueCarte.creerBindings();
                     cartesJouees.getChildren().add(vueCarte);
+                    vueCarte.creerBindings();
                 }
                 else if (change.wasRemoved()){
                     ICarte carte = change.getRemoved().get(0);
@@ -93,11 +97,45 @@ public class VueJoueurCourant extends VBox {
                 if (change.wasAdded()){
                     ICarte carte = change.getAddedSubList().get(0);
                     VueCarte vueCarte = new VueCarte(carte);
-                    vueCarte.creerBindings();
                     cartesRecues.getChildren().add(vueCarte);
+                    vueCarte.creerBindings();
                 }
             }
         };
+
+        pioche = new ArrayList<>();
+        changementPioche = change ->{
+            while (change.next()){
+            if (change.wasAdded()){
+                ICarte carte = change.getAddedSubList().get(0);
+                pioche.add(carte);
+            }
+            else if (change.wasRemoved()){
+                for (ICarte carteEnlevee : change.getRemoved()) {
+                    pioche.removeIf(vueCarte -> ((VueCarte) vueCarte).getCarte().equals(carteEnlevee)); ////////////////////////////////////////////////////////////////////////////
+                }
+            }
+        }};
+
+        defausse = new ArrayList<>();
+        changementDefausse = change ->{
+            while (change.next()){
+                if (change.wasAdded()){
+                    defausse.addAll(change.getAddedSubList());
+                }
+                else if (change.wasRemoved()){
+                     for (ICarte carteEnlevee : change.getRemoved()) {
+                         defausse.removeIf(vueCarte -> ((VueCarte) vueCarte).getCarte().equals(carteEnlevee)); ////////////////////////////////////////////////////////////////////////////
+                     }
+                }
+            }
+        };
+
+        popupDeck = new Popup();
+        popupDefausse = new Popup();
+        popupJouees = new Popup();
+        popupRecues = new Popup();
+
     }
 
 
@@ -109,13 +147,19 @@ public class VueJoueurCourant extends VBox {
     public void creerBindings() {
         cartesEnMain.minHeightProperty().bind(getScene().heightProperty().divide(4));
         cartesEnMain.maxHeightProperty().bind(getScene().heightProperty().divide(4));
+        imageDeck.setOnMouseClicked(event -> actionCliquePioche());
+        pioche.addAll(joueurCourantProperty.get().piocheProperty().get());
+        imageDefausse.setOnMouseClicked(event -> actionCliqueDefausse());
+        defausse.addAll(joueurCourantProperty.get().defausseProperty().get());
+        cartesJouees.setOnMouseClicked(event -> actionCliqueJouees());
+        cartesRecues.setOnMouseClicked(event -> actionCliqueRecues());
         joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
 
             // Main du joueur
             cartesEnMain.getChildren().clear();
             for (ICarte carte : nouveauJoueur.mainProperty()) {
                 VueCarte vueCarte = new VueCarte(carte);
-                vueCarte.setCarteChoisieListener(mouseCliqued ->
+                vueCarte.setActionCarteChoisie(mouseCliqued ->
                         nouveauJoueur.uneCarteDeLaMainAEteChoisie(((VueCarte) mouseCliqued.getSource()).getNomCarte()));
                 cartesEnMain.getChildren().add(vueCarte);
                 vueCarte.creerBindingsCarteEnMain();
@@ -167,29 +211,78 @@ public class VueJoueurCourant extends VBox {
 
             // deck
             labelDeck.textProperty().bind(nouveauJoueur.piocheProperty().sizeProperty().asString());
+            popupDeck.getContent().clear();
 
             // défausse
             labelDefausse.textProperty().bind(nouveauJoueur.defausseProperty().sizeProperty().asString());
+            popupDefausse.getContent().clear();
 
             // cartes jouées
             cartesJouees.getChildren().clear();
+            popupJouees.getContent().clear();
 
             // cartes reçues
             cartesRecues.getChildren().clear();
+            popupRecues.getContent().clear();
 
         });
+
+    }
+
+    public void actionCliquePopup(Popup popup, boolean estCarteJouee, List<ICarte> pile, Node parent){
+        VueEnsembleCartes ensembleDeck = new VueEnsembleCartes(pile);
+        if (estCarteJouee){
+            ensembleDeck.setEstCarteJouees();
+        }
+        popup.getContent().add(ensembleDeck);
+        ensembleDeck.creerBindings();
+        double x = getScene().getWindow().getX() + getScene().getWidth() / 2;
+        double y = getScene().getWindow().getY() + getScene().getHeight() / 2;
+        popup.show(parent, x, y);
+    }
+
+    private void actionCliquePile(Popup popup, List<ICarte> pile, ImageView imagePile) {
+        if (popup.isShowing()){
+            popup.hide();
+        }
+        else {
+            actionCliquePopup(popup,false, pile, imagePile);
+        }
+    }
+
+    public void actionCliquePioche(){
+        joueurCourantProperty.get().laPiocheAEteChoisie();
+        actionCliquePile(popupDeck, pioche, imageDeck);
+    }
+
+    public void actionCliqueDefausse(){
+        joueurCourantProperty.get().laDefausseAEteChoisie();
+        actionCliquePile(popupDefausse, defausse, imageDefausse);
+    }
+
+    private void actionCliqueStack(Popup popup, boolean estCarteJouee, StackPane cartesStack) {
+        if (popup.isShowing()){
+            popup.hide();
+        }
+        else {
+            List<ICarte> cartes = new ArrayList<>();
+            for (Node vueCarteJouees : cartesStack.getChildren()){
+                cartes.add(((VueCarte) vueCarteJouees).getCarte());
+            }
+            actionCliquePopup(popup, estCarteJouee, cartes, cartesStack);
+        }
+    }
+
+    public void actionCliqueJouees(){
+        actionCliqueStack(popupJouees,true, cartesJouees);
+    }
+
+    public void actionCliqueRecues(){
+        actionCliqueStack(popupRecues,false, cartesRecues);
     }
 
     public HBox getCartesEnMain() {
         return cartesEnMain;
-    }
-
-    public StackPane getcartesJouees() {
-        return cartesJouees;
-    }
-
-    public StackPane getcartesRecues() {
-        return cartesRecues;
     }
 
     public ListChangeListener<ICarte> getChangementMain(IJoueur joueurCourant) {
@@ -202,7 +295,7 @@ public class VueJoueurCourant extends VBox {
                 else if(change.wasAdded()){
                     for (ICarte carteAjoutee : change.getAddedSubList()) {
                         VueCarte vueCarte = new VueCarte(carteAjoutee);
-                        vueCarte.setCarteChoisieListener(mouseCliqued ->
+                        vueCarte.setActionCarteChoisie(mouseCliqued ->
                                 joueurCourant.uneCarteDeLaMainAEteChoisie(((VueCarte) mouseCliqued.getSource()).getNomCarte()));
                         cartesEnMain.getChildren().add(vueCarte);
                         vueCarte.creerBindingsCarteEnMain();
@@ -218,6 +311,14 @@ public class VueJoueurCourant extends VBox {
 
     public ListChangeListener<ICarte> getChangementRecu() {
         return changementRecu;
+    }
+
+    public ListChangeListener<ICarte> getChangementPioche() {
+        return changementPioche;
+    }
+
+    public ListChangeListener<ICarte> getChangementDefausse() {
+        return changementDefausse;
     }
 
     private VueCarte trouverBoutonCarte(ICarte carteATrouver){

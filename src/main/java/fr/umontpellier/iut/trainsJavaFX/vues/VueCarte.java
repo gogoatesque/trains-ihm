@@ -1,21 +1,14 @@
 package fr.umontpellier.iut.trainsJavaFX.vues;
 
-import fr.umontpellier.iut.trainsJavaFX.GestionJeu;
 import fr.umontpellier.iut.trainsJavaFX.ICarte;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Popup;
 
 import java.io.IOException;
@@ -31,8 +24,6 @@ public class VueCarte extends Pane {
     private double ratio;
     @FXML
     private ImageView imageCarte;
-
-    private EventHandler<MouseEvent> cliqueHandler;
 
     public VueCarte() {
         super();
@@ -79,7 +70,7 @@ public class VueCarte extends Pane {
         imageCarte.fitHeightProperty().bind(((Pane)this.getParent()).heightProperty());
     }
 
-    public void setCarteChoisieListener(EventHandler<MouseEvent> quandCarteEstChoisie) {
+    public void setActionCarteChoisie(EventHandler<MouseEvent> quandCarteEstChoisie) {
         setOnMouseClicked(quandCarteEstChoisie);
     }
 
