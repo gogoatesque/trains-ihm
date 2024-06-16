@@ -30,7 +30,10 @@ public class VueJoueurCourant extends VBox {
     private ObjectProperty<IJoueur> joueurCourantProperty;
     private HBox cartesEnMain;
     @FXML
+    private Label labelCarteJouees;
+    @FXML
     private StackPane cartesJouees;
+    @FXML Label labelCartesRecues;
     @FXML
     private StackPane cartesRecues;
     private ListChangeListener<ICarte> changementMain;
@@ -82,7 +85,7 @@ public class VueJoueurCourant extends VBox {
                     ICarte carte = change.getAddedSubList().get(0);
                     VueCarte vueCarte = new VueCarte(carte);
                     cartesJouees.getChildren().add(vueCarte);
-                    vueCarte.creerBindings();
+                    vueCarte.creerBindingsCarteAvecTaille();
                 }
                 else if (change.wasRemoved()){
                     ICarte carte = change.getRemoved().get(0);
@@ -97,7 +100,7 @@ public class VueJoueurCourant extends VBox {
                     ICarte carte = change.getAddedSubList().get(0);
                     VueCarte vueCarte = new VueCarte(carte);
                     cartesRecues.getChildren().add(vueCarte);
-                    vueCarte.creerBindings();
+                    vueCarte.creerBindingsCarteAvecTaille();
                 }
             }
         };
@@ -150,7 +153,9 @@ public class VueJoueurCourant extends VBox {
         pioche.addAll(joueurCourantProperty.get().piocheProperty().get());
         imageDefausse.setOnMouseClicked(event -> actionCliqueDefausse());
         defausse.addAll(joueurCourantProperty.get().defausseProperty().get());
+        labelCarteJouees.maxWidthProperty().bind(((HBox) labelCarteJouees.getParent()).widthProperty().divide(6));
         cartesJouees.setOnMouseClicked(event -> actionCliqueJouees());
+        labelCartesRecues.maxWidthProperty().bind(((HBox) labelCartesRecues.getParent()).widthProperty().divide(5));
         cartesRecues.setOnMouseClicked(event -> actionCliqueRecues());
         joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
 
@@ -161,7 +166,7 @@ public class VueJoueurCourant extends VBox {
                 vueCarte.setActionCarteChoisie(mouseCliqued ->
                         nouveauJoueur.uneCarteDeLaMainAEteChoisie(((VueCarte) mouseCliqued.getSource()).getNomCarte()));
                 cartesEnMain.getChildren().add(vueCarte);
-                vueCarte.creerBindingsCarteEnMain();
+                vueCarte.creerBindingsCarteAvecTaille();
             }
             cartesEnMain.spacingProperty().bind(new DoubleBinding() {
                 {
@@ -297,7 +302,7 @@ public class VueJoueurCourant extends VBox {
                         vueCarte.setActionCarteChoisie(mouseCliqued ->
                                 joueurCourant.uneCarteDeLaMainAEteChoisie(((VueCarte) mouseCliqued.getSource()).getNomCarte()));
                         cartesEnMain.getChildren().add(vueCarte);
-                        vueCarte.creerBindingsCarteEnMain();
+                        vueCarte.creerBindingsCarteAvecTaille();
                     }
                 }
             }
