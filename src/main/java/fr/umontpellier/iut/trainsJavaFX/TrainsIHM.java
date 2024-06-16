@@ -27,7 +27,7 @@ public class TrainsIHM extends Application {
     private Stage primaryStage;
     private Jeu jeu;
 
-    private final boolean avecVueChoixJoueurs = false;
+    private final boolean avecVueChoixJoueurs = true;
 
     @Override
     public void start(Stage primaryStage) {
@@ -90,8 +90,11 @@ public class TrainsIHM extends Application {
     }
 
     private final ListChangeListener<String> quandLesNomsJoueursSontDefinis = change -> {
-        if (!vueChoixJoueurs.getNomsJoueurs().isEmpty())
+        if (!vueChoixJoueurs.getNomsJoueurs().isEmpty()){
             demarrerPartie();
+            vueChoixJoueurs.hide();
+        }
+
     };
 
     public void arreterJeu() {
