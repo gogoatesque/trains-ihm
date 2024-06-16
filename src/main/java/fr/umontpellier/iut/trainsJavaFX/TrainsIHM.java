@@ -6,6 +6,7 @@ import fr.umontpellier.iut.trainsJavaFX.mecanique.plateau.Plateau;
 import fr.umontpellier.iut.trainsJavaFX.vues.DonneesGraphiques;
 import fr.umontpellier.iut.trainsJavaFX.vues.VueChoixJoueurs;
 import fr.umontpellier.iut.trainsJavaFX.vues.VueDuJeu;
+import fr.umontpellier.iut.trainsJavaFX.vues.VueResultats;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
@@ -60,9 +61,17 @@ public class TrainsIHM extends Application {
 
         Scene scene = new Scene(vueDuJeu, Screen.getPrimary().getBounds().getWidth() * DonneesGraphiques.pourcentageEcran, Screen.getPrimary().getBounds().getHeight() * DonneesGraphiques.pourcentageEcran); // la scene doit être créée avant de mettre en place les bindings
         vueDuJeu.creerBindings();
+        jeu.finDePartieProperty().addListener((source, ancien, nouveau) -> {
+            if (nouveau) {
+                arreterJeu();
+                VueResultats vueResultats = new VueResultats(this);
+                primaryStage.setScene(new Scene(vueResultats));
+            }
+        });
         jeu.run(); // le jeu doit être démarré après que les bindings ont été mis en place
 
-//        VueResultats vueResultats = new VueResultats(this);
+
+
         primaryStage.setMinWidth(Screen.getPrimary().getBounds().getWidth() / 2.5);
         primaryStage.setMinHeight(Screen.getPrimary().getBounds().getHeight() / 2.5);
         primaryStage.setMaxWidth(Screen.getPrimary().getBounds().getWidth());
