@@ -75,7 +75,6 @@ public class VueJoueurCourant extends VBox {
         joueurCourantProperty = new SimpleObjectProperty<>();
         cartesEnMain = new HBox();
         cartesEnMain.setAlignment(Pos.CENTER);
-        cartesJouees = new StackPane();
         changementJouees = change -> {
             while (change.next()){
                 if (change.wasAdded()){
@@ -91,7 +90,6 @@ public class VueJoueurCourant extends VBox {
             }
         };
 
-        cartesRecues = new StackPane();
         changementRecu = change -> {
             while (change.next()){
                 if (change.wasAdded()){

@@ -77,7 +77,7 @@ public class VueDuJeu extends BorderPane {
             nomJoueur.setTextFill(Paint.valueOf(CouleursJoueurs.couleursBackgroundJoueur.get(nouveauJoueur.getCouleur())));
             List<? extends IJoueur> joueurs = new ArrayList<>(jeu.getJoueurs());
             joueurs.remove(nouveauJoueur);
-            vueAutresJoueurs = new VueAutresJoueurs(joueurs);
+            vueAutresJoueurs.setJoueursSansCourant(joueurs);
             vueAutresJoueurs.creerBindings();
         });
 

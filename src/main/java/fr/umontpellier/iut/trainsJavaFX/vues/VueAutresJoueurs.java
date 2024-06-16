@@ -22,7 +22,7 @@ import static fr.umontpellier.iut.trainsJavaFX.GestionJeu.getJeu;
  * <p>
  * On y définit les bindings sur le joueur courant, ainsi que le listener à exécuter lorsque ce joueur change
  */
-public class VueAutresJoueurs extends HBox {
+public class VueAutresJoueurs extends VBox {
 
     @FXML
     private Label nbJetonGare;
@@ -40,8 +40,8 @@ public class VueAutresJoueurs extends HBox {
         }
     }
 
-    public VueAutresJoueurs(List<? extends IJoueur> joueurs) {
-        joueursSansCourant = joueurs;
+    public void setJoueursSansCourant(List<? extends IJoueur> joueursSansCourant) {
+        this.joueursSansCourant = joueursSansCourant;
     }
 
     public void creerBindings(){
