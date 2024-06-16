@@ -33,7 +33,7 @@
 
    </top>
    <left>
-      <VBox fx:id="boiteReserve"/>
+      <FlowPane fx:id="boiteReserve"/>
    </left>
    <bottom>
       <HBox fx:id="boiteCarteEnMain" />
@@ -43,6 +43,7 @@
          <children>
             <VueJoueurCourant fx:id="vueJoueurCourant" prefHeight="250.0" prefWidth="250.0" />
             <VueAutresJoueurs />
+            <StackPane fx:id="cartesRecues" prefHeight="250.0" prefWidth="250.0"/>
          </children>
       </VBox>
    </right>

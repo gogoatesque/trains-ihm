@@ -4,6 +4,7 @@ import fr.umontpellier.iut.trainsJavaFX.ICarte;
 import fr.umontpellier.iut.trainsJavaFX.IJeu;
 import fr.umontpellier.iut.trainsJavaFX.IJoueur;
 import fr.umontpellier.iut.trainsJavaFX.mecanique.cartes.Carte;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
@@ -12,14 +13,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -47,7 +47,9 @@ public class VueDuJeu extends BorderPane {
     @FXML
     private HBox boiteCarteEnMain;
     @FXML
-    private VBox boiteReserve;
+    private FlowPane boiteReserve;
+    @FXML
+    private StackPane cartesRecues;
     @FXML
     private ImageView passer;
 
@@ -62,7 +64,7 @@ public class VueDuJeu extends BorderPane {
         }
         this.jeu = jeu;
         joueurCourantProperty = new SimpleObjectProperty<>();
-        boiteReserve = new VBox();
+        boiteReserve = new FlowPane();
         boiteReserve.setAlignment(Pos.CENTER);
     }
 
@@ -90,18 +92,47 @@ public class VueDuJeu extends BorderPane {
         setBottom(boiteCarteEnMain);
         boiteCarteEnMain.minWidthProperty().bind(getScene().widthProperty());
 
-        //Reserve
+/*       //Reserve Vbox
         setLeft(boiteReserve);
         for (ICarte carte : jeu.getReserve()) {
+            Map<String, IntegerProperty> reserveVal = jeu.getTaillesPilesReserveProperties();
             VueCarte vueCarte = new VueCarte(carte);
-            boiteReserve.getChildren().add(vueCarte);
+            Label nombreCarte = new Label();
+            HBox carteBox = new HBox(vueCarte, nombreCarte);
+            carteBox.setSpacing(10);
+            boiteReserve.getChildren().add(carteBox);
+            boiteReserve.minWidthProperty().bind(getScene().widthProperty().divide(5));
             vueCarte.creerBindings();
+            vueCarte.setRotate(-90);
+            vueCarte.getImageCarte().fitHeightProperty().bind((boiteReserve.widthProperty()).divide(2));
+            vueCarte.getImageCarte().fitWidthProperty().bind(boiteReserve.heightProperty().divide(2));
+            vueCarte.getImageCarte().setPreserveRatio(true);
             vueCarte.setCarteChoisieListener(mouseEvent -> jeu.uneCarteDeLaReserveEstAchetee(((VueCarte) mouseEvent.getSource()).getNomCarte()));
-            boiteReserve.minWidthProperty().bind(getScene().widthProperty().divide(8));
-            boiteReserve.maxWidthProperty().bind(getScene().widthProperty().divide(8));
-        }
+            nombreCarte.textProperty().bind(reserveVal.get(carte.getNom()).asString());
+        }*/
+
+/*        //Reserve Vbox
+        setLeft(boiteReserve);
+        for (ICarte carte : jeu.getReserve()) {
+            Map<String, IntegerProperty> reserveVal = jeu.getTaillesPilesReserveProperties();
+            VueCarte vueCarte = new VueCarte(carte);
+            Label nombreCarte = new Label();
+            nombreCarte.setStyle("-fx-background-color: white");
+            StackPane stackPane = new StackPane();
+            stackPane.getChildren().addAll(vueCarte, nombreCarte);
+            vueCarte.prefWidthProperty().bind(boiteCarteEnMain.prefWidthProperty().divide(15));
+            vueCarte.creerBindings();
+            vueCarte.getImageCarte().setPreserveRatio(true);
+            vueCarte.setCarteChoisieListener(mouseEvent -> jeu.uneCarteDeLaReserveEstAchetee(((VueCarte) mouseEvent.getSource()).getNomCarte()));
+            nombreCarte.textProperty().bind(reserveVal.get(carte.getNom()).asString());
+            boiteReserve.getChildren().add(stackPane);
+        }*/
+
         // bouton passer
         passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasser);
+
+        //cartes reçues
+        cartesRecues = vueJoueurCourant.getcartesRecues();
     }
 
     public IJeu getJeu() {

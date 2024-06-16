@@ -74,4 +74,7 @@ public class VueCarte extends Pane {
         return imageCarte.getFitHeight()*ratio;
     }
 
+    public ImageView getImageCarte() {
+        return imageCarte;
+    }
 }
