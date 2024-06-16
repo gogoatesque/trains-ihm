@@ -72,7 +72,32 @@ public class VueJoueurCourant extends VBox {
         cartesEnMain = new HBox();
         cartesEnMain.setAlignment(Pos.CENTER);
         cartesJouees = new StackPane();
+        changementJouees = change -> {
+            while (change.next()){
+                if (change.wasAdded()){
+                    ICarte carte = change.getAddedSubList().get(0);
+                    VueCarte vueCarte = new VueCarte(carte);
+                    vueCarte.creerBindings();
+                    cartesJouees.getChildren().add(vueCarte);
+                }
+                else if (change.wasRemoved()){
+                    ICarte carte = change.getRemoved().get(0);
+                    cartesJouees.getChildren().removeIf(vueCarte -> ((VueCarte) vueCarte).getCarte().equals(carte));
+                }
+            }
+        };
+
         cartesRecues = new StackPane();
+        changementRecu = change -> {
+            while (change.next()){
+                if (change.wasAdded()){
+                    ICarte carte = change.getAddedSubList().get(0);
+                    VueCarte vueCarte = new VueCarte(carte);
+                    vueCarte.creerBindings();
+                    cartesRecues.getChildren().add(vueCarte);
+                }
+            }
+        };
     }
 
 
@@ -86,18 +111,15 @@ public class VueJoueurCourant extends VBox {
         cartesEnMain.maxHeightProperty().bind(getScene().heightProperty().divide(4));
         joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
 
-            EventHandler<MouseEvent> carteEnMainChoisi =  (mouseCliqued ->
-                    nouveauJoueur.uneCarteDeLaMainAEteChoisie(((VueCarte) mouseCliqued.getSource()).getNomCarte())
-            );
+            // Main du joueur
             cartesEnMain.getChildren().clear();
             for (ICarte carte : nouveauJoueur.mainProperty()) {
                 VueCarte vueCarte = new VueCarte(carte);
-                vueCarte.setCarteChoisieListener(carteEnMainChoisi);
+                vueCarte.setCarteChoisieListener(mouseCliqued ->
+                        nouveauJoueur.uneCarteDeLaMainAEteChoisie(((VueCarte) mouseCliqued.getSource()).getNomCarte()));
                 cartesEnMain.getChildren().add(vueCarte);
-                vueCarte.creerBindings();
+                vueCarte.creerBindingsCarteEnMain();
             }
-
-            // Main du joueur
             cartesEnMain.spacingProperty().bind(new DoubleBinding() {
                 {
                     this.bind(joueurCourantProperty);
@@ -121,25 +143,6 @@ public class VueJoueurCourant extends VBox {
                     }
                 }
             });
-            changementMain = change -> {
-                while (change.next()){
-                    if (change.wasRemoved()) {
-                        ICarte carteEnlevee = change.getRemoved().get(0);
-                        cartesEnMain.getChildren().remove(trouverBoutonCarte(carteEnlevee));
-                    }
-                    else if(change.wasAdded()){
-                        for (ICarte carteAjoutee : change.getAddedSubList()) {
-                            VueCarte vueCarte = new VueCarte(carteAjoutee);
-                            vueCarte.setCarteChoisieListener(carteEnMainChoisi);
-                            cartesEnMain.getChildren().add(vueCarte);
-                            vueCarte.creerBindings();
-                        }
-                    }
-                }
-            };
-            nouveauJoueur.mainProperty().addListener(changementMain);
-
-
 
 
             // argent
@@ -166,46 +169,15 @@ public class VueJoueurCourant extends VBox {
             labelDeck.textProperty().bind(nouveauJoueur.piocheProperty().sizeProperty().asString());
 
             // défausse
-            labelDeck.textProperty().bind(nouveauJoueur.defausseProperty().sizeProperty().asString());
+            labelDefausse.textProperty().bind(nouveauJoueur.defausseProperty().sizeProperty().asString());
 
             // cartes jouées
             cartesJouees.getChildren().clear();
-            changementJouees = change -> {
-                while (change.next()){
-                    if (change.wasAdded()){
-                        ICarte carte = change.getAddedSubList().get(0);
-                        System.out.println("joué : " + carte.getNom());
-                        VueCarte vueCarte = new VueCarte(carte);
-                        cartesJouees.getChildren().add(vueCarte);
-                        vueCarte.creerBindings();
-                    }
-                    else if (change.wasRemoved()){
-                        ICarte carte = change.getRemoved().get(0);
-                        cartesJouees.getChildren().removeIf(vueCarte -> ((VueCarte) vueCarte).getCarte().equals(carte));
-                    }
-                }
-                System.out.println("cartes jouées : " + cartesJouees.getChildren());
-            };
-            nouveauJoueur.cartesEnJeuProperty().addListener(changementJouees);
 
             // cartes reçues
             cartesRecues.getChildren().clear();
-            changementRecu = change -> {
-                while (change.next()){
-                    if (change.wasAdded()){
-                        ICarte carte = change.getAddedSubList().get(0);
-                        System.out.println("reçu : " + carte.getNom());
-                        VueCarte vueCarte = new VueCarte(carte);
-                        cartesRecues.getChildren().add(vueCarte);
-                        vueCarte.creerBindings();
-                    }
-                }
-                System.out.println("reçues : " + cartesRecues.getChildren());
-            };
-            nouveauJoueur.cartesRecuesProperty().addListener(changementRecu);
 
         });
-
     }
 
     public HBox getCartesEnMain() {
@@ -218,6 +190,34 @@ public class VueJoueurCourant extends VBox {
 
     public StackPane getcartesRecues() {
         return cartesRecues;
+    }
+
+    public ListChangeListener<ICarte> getChangementMain(IJoueur joueurCourant) {
+        return changementMain = change -> {
+            while (change.next()){
+                if (change.wasRemoved()) {
+                    ICarte carteEnlevee = change.getRemoved().get(0);
+                    cartesEnMain.getChildren().remove(trouverBoutonCarte(carteEnlevee));
+                }
+                else if(change.wasAdded()){
+                    for (ICarte carteAjoutee : change.getAddedSubList()) {
+                        VueCarte vueCarte = new VueCarte(carteAjoutee);
+                        vueCarte.setCarteChoisieListener(mouseCliqued ->
+                                joueurCourant.uneCarteDeLaMainAEteChoisie(((VueCarte) mouseCliqued.getSource()).getNomCarte()));
+                        cartesEnMain.getChildren().add(vueCarte);
+                        vueCarte.creerBindingsCarteEnMain();
+                    }
+                }
+            }
+        };
+    }
+
+    public ListChangeListener<ICarte> getChangementJouees() {
+        return changementJouees;
+    }
+
+    public ListChangeListener<ICarte> getChangementRecu() {
+        return changementRecu;
     }
 
     private VueCarte trouverBoutonCarte(ICarte carteATrouver){

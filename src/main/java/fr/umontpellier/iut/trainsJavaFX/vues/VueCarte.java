@@ -52,10 +52,14 @@ public class VueCarte extends Pane {
         Image image = new Image("images/cartes/"+carte.getNom().replace(" ","_").toLowerCase().replace("é","e").replace("è","e").replace("ô","o")+".jpg");
         ratio = image.getWidth() / image.getHeight();
         imageCarte.setImage(image);
-        imageCarte.fitHeightProperty().bind(((Pane)this.getParent()).heightProperty());
         imageCarte.hoverProperty().addListener((observableValue, ancien, nouveau) -> {
             // code pour rendre la carte plus grande
         });
+    }
+
+    public void creerBindingsCarteEnMain(){
+        creerBindings();
+        imageCarte.fitHeightProperty().bind(((Pane)this.getParent()).heightProperty());
     }
 
     public void setCarteChoisieListener(EventHandler<MouseEvent> quandCarteEstChoisie) {
