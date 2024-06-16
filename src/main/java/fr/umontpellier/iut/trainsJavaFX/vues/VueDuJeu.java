@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -92,27 +93,9 @@ public class VueDuJeu extends BorderPane {
         setBottom(boiteCarteEnMain);
         boiteCarteEnMain.minWidthProperty().bind(getScene().widthProperty());
 
-/*       //Reserve Vbox
+       //Reserve Vbox
         setLeft(boiteReserve);
-        for (ICarte carte : jeu.getReserve()) {
-            Map<String, IntegerProperty> reserveVal = jeu.getTaillesPilesReserveProperties();
-            VueCarte vueCarte = new VueCarte(carte);
-            Label nombreCarte = new Label();
-            HBox carteBox = new HBox(vueCarte, nombreCarte);
-            carteBox.setSpacing(10);
-            boiteReserve.getChildren().add(carteBox);
-            boiteReserve.minWidthProperty().bind(getScene().widthProperty().divide(5));
-            vueCarte.creerBindings();
-            vueCarte.setRotate(-90);
-            vueCarte.getImageCarte().fitHeightProperty().bind((boiteReserve.widthProperty()).divide(2));
-            vueCarte.getImageCarte().fitWidthProperty().bind(boiteReserve.heightProperty().divide(2));
-            vueCarte.getImageCarte().setPreserveRatio(true);
-            vueCarte.setCarteChoisieListener(mouseEvent -> jeu.uneCarteDeLaReserveEstAchetee(((VueCarte) mouseEvent.getSource()).getNomCarte()));
-            nombreCarte.textProperty().bind(reserveVal.get(carte.getNom()).asString());
-        }*/
-
-/*        //Reserve Vbox
-        setLeft(boiteReserve);
+        boiteReserve.setOrientation(Orientation.VERTICAL);
         for (ICarte carte : jeu.getReserve()) {
             Map<String, IntegerProperty> reserveVal = jeu.getTaillesPilesReserveProperties();
             VueCarte vueCarte = new VueCarte(carte);
@@ -120,13 +103,17 @@ public class VueDuJeu extends BorderPane {
             nombreCarte.setStyle("-fx-background-color: white");
             StackPane stackPane = new StackPane();
             stackPane.getChildren().addAll(vueCarte, nombreCarte);
-            vueCarte.prefWidthProperty().bind(boiteCarteEnMain.prefWidthProperty().divide(15));
+            boiteReserve.getChildren().add(stackPane);
+            boiteReserve.setHgap(25);
+            boiteReserve.setVgap(2);
+            stackPane.minHeightProperty().bind(boiteReserve.heightProperty().divide(7));
+            stackPane.maxHeightProperty().bind(boiteReserve.heightProperty().divide(7));
             vueCarte.creerBindings();
-            vueCarte.getImageCarte().setPreserveRatio(true);
+            vueCarte.setRotate(-90);
+            vueCarte.getImageCarte().fitWidthProperty().bind(stackPane.heightProperty());
             vueCarte.setCarteChoisieListener(mouseEvent -> jeu.uneCarteDeLaReserveEstAchetee(((VueCarte) mouseEvent.getSource()).getNomCarte()));
             nombreCarte.textProperty().bind(reserveVal.get(carte.getNom()).asString());
-            boiteReserve.getChildren().add(stackPane);
-        }*/
+        }
 
         // bouton passer
         passer.addEventHandler(MouseEvent.MOUSE_CLICKED, actionPasser);
