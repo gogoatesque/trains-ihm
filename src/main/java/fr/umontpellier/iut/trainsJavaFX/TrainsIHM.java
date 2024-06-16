@@ -112,6 +112,7 @@ public class TrainsIHM extends Application {
         });
         VueResultats vueResultats = new VueResultats(this);
         primaryStage.setScene(new Scene(vueResultats));
+        primaryStage.setResizable(false);
     }
 
     public Jeu getJeu() {
