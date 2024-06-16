@@ -46,6 +46,7 @@ public class VueAutresJoueurs extends VBox {
 
     public void creerBindings(){
         //nbJetonGare.textProperty().bind(getNb);
+        getChildren().clear();
         for (IJoueur joueur : joueursSansCourant) {
             VueJoueur vj = new VueJoueur(joueur);
             getChildren().add(vj);
