@@ -1,20 +1,25 @@
 package fr.umontpellier.iut.trainsJavaFX.vues;
 
 import fr.umontpellier.iut.trainsJavaFX.mecanique.plateau.Plateau;
+import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SplitMenuButton;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Cette classe correspond à une nouvelle fenêtre permettant de choisir le nombre et les noms des joueurs de la partie.
@@ -34,24 +39,58 @@ public class VueChoixJoueurs extends Stage {
     private Button jouer;
     @FXML
     private Button quitter;
+    @FXML
+    private VBox joueurVBox;
+    private VBox root;
+    private final ObservableList<TextField> joueurTextFields = FXCollections.observableArrayList();
+    private StringProperty nomPlateau;
 
     public VueChoixJoueurs() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/choixJoueurs.fxml"));
-            loader.setRoot(this);
             loader.setController(this);
-            loader.load();
+            root = loader.load();
+            setScene(new Scene(root));
             setTitle("Choix Joueurs");
         } catch (IOException e) {
             e.printStackTrace();
         }
         nomsJoueurs = FXCollections.observableArrayList();
+        nomPlateau = new SimpleStringProperty();
+        creerBindings();
     }
 
     @FXML
     public void initialize() {
         plateau.getItems().addAll("Tokyo", "Osaka");
         plateau.setValue("Osaka");
+        updateJoueursTextFields(2);
+        spinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            int nbJoueurs = newValue;
+            updateJoueursTextFields(nbJoueurs);
+        });
+    }
+
+    private void updateJoueursTextFields(int nbJoueurs) {
+        joueurVBox.getChildren().clear();
+        joueurTextFields.clear();
+
+        for (int i = 1; i <= nbJoueurs; i++) {
+            TextField textField = new TextField();
+            textField.setPromptText("Joueur " + i);
+            joueurVBox.getChildren().add(textField);
+            joueurTextFields.add(textField);
+        }
+    }
+
+    public void creerBindings(){
+        quitter.setOnAction(actionEvent -> Platform.exit());
+        jouer.setOnAction(actionEvent -> {
+            for (TextField tf : joueurTextFields) {
+                nomsJoueurs.add(tf.getText());
+            }
+        });
+        nomPlateau.bind(plateau.valueProperty());
     }
 
     public List<String> getNomsJoueurs() {
@@ -62,8 +101,9 @@ public class VueChoixJoueurs extends Stage {
      * Définit l'action à exécuter lorsque la liste des participants est correctement initialisée
      */
     public void setNomsDesJoueursDefinisListener(ListChangeListener<String> quandLesNomsDesJoueursSontDefinis) {
-
+        nomsJoueurs.addListener(quandLesNomsDesJoueursSontDefinis);
     }
+
 
     /**
      * Vérifie que tous les noms des participants sont renseignés
@@ -99,10 +139,10 @@ public class VueChoixJoueurs extends Stage {
      * @param playerNumber : le numéro du participant
      */
     protected String getJoueurParNumero(int playerNumber) {
-        throw new RuntimeException("Methode à implémenter");
+        return joueurTextFields.get(playerNumber - 1).getText();
     }
 
     public Plateau getPlateau() {
-        return plateauChoisi;
+        return Plateau.valueOf(nomPlateau.get().toUpperCase());
     }
 }
