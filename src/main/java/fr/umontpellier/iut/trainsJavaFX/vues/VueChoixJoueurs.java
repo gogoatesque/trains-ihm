@@ -86,8 +86,21 @@ public class VueChoixJoueurs extends Stage {
     public void creerBindings(){
         quitter.setOnAction(actionEvent -> Platform.exit());
         jouer.setOnAction(actionEvent -> {
+            boolean nomVide = false;
             for (TextField tf : joueurTextFields) {
-                nomsJoueurs.add(tf.getText());
+                if(tf.getText().isEmpty()) {
+                    nomVide = true;
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setContentText("Veuillez remplir tous les joueurs");
+                    alert.showAndWait();
+                    break;
+                }
+            }
+            if (!nomVide) {
+                for (TextField tf : joueurTextFields) {
+                    nomsJoueurs.add(tf.getText());
+                }
             }
         });
         nomPlateau.bind(plateau.valueProperty());
