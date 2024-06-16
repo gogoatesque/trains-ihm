@@ -2,11 +2,13 @@ package fr.umontpellier.iut.trainsJavaFX.vues;
 
 import fr.umontpellier.iut.trainsJavaFX.GestionJeu;
 import fr.umontpellier.iut.trainsJavaFX.ICarte;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Popup;
 
 import java.io.IOException;
 
@@ -52,8 +55,22 @@ public class VueCarte extends Pane {
         Image image = new Image("images/cartes/"+carte.getNom().replace(" ","_").toLowerCase().replace("é","e").replace("è","e").replace("ô","o")+".jpg");
         ratio = image.getWidth() / image.getHeight();
         imageCarte.setImage(image);
+
+        ImageView visualisationCarte = new ImageView(image);
+        visualisationCarte.setPreserveRatio(true);
+        visualisationCarte.fitHeightProperty().bind(getScene().heightProperty().divide(2.5));
+        Popup popupCarte = new Popup();
+        popupCarte.getContent().add(visualisationCarte);
         imageCarte.hoverProperty().addListener((observableValue, ancien, nouveau) -> {
-            // code pour rendre la carte plus grande
+            if (nouveau){
+
+                double x = getScene().getWindow().getX() + getScene().getWidth()/2;
+                double y = getScene().getWindow().getY() + getScene().getHeight()/3;
+                popupCarte.show(imageCarte,x,y);
+            }
+            else {
+                popupCarte.hide();
+            }
         });
     }
 
@@ -78,7 +95,7 @@ public class VueCarte extends Pane {
         return imageCarte.getFitHeight()*ratio;
     }
 
-    public ImageView getImageCarte() {
-        return imageCarte;
+    public DoubleProperty imageWidthPropety(){
+        return imageCarte.fitWidthProperty();
     }
 }
