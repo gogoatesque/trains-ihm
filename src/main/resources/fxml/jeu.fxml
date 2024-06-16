@@ -42,7 +42,7 @@
       <VBox BorderPane.alignment="CENTER">
          <children>
             <VueJoueurCourant fx:id="vueJoueurCourant" prefWidth="300" prefHeight="250" />
-            <VueAutresJoueurs fx:id="vueAutreJoueurs" prefWidth="300" prefHeight="250"/>
+            <VueAutresJoueurs fx:id="vueAutresJoueurs" prefWidth="300" prefHeight="250"/>
          </children>
       </VBox>
    </right>

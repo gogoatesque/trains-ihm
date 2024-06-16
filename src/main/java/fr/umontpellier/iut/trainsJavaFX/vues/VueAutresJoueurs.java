@@ -41,14 +41,14 @@ public class VueAutresJoueurs extends HBox {
     }
 
     public VueAutresJoueurs(List<? extends IJoueur> joueurs) {
-        joueursSansCourant = new ArrayList<>();
+        joueursSansCourant = joueurs;
     }
 
     public void creerBindings(){
         //nbJetonGare.textProperty().bind(getNb);
         for (IJoueur joueur : joueursSansCourant) {
             VueJoueur vj = new VueJoueur(joueur);
-            this.getChildren().add(vj);
+            getChildren().add(vj);
             vj.creerBindings();
         }
     }
