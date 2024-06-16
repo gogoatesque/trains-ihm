@@ -20,6 +20,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -51,6 +53,9 @@ public class VueDuJeu extends BorderPane {
     private FlowPane boiteReserve;
     @FXML
     private ImageView passer;
+    @FXML
+    private VueAutresJoueurs vueAutresJoueurs;
+
 
     public VueDuJeu(IJeu jeu) {
         try {
@@ -71,6 +76,10 @@ public class VueDuJeu extends BorderPane {
         joueurCourantProperty.addListener((observableValue, ancienJoueur, nouveauJoueur) -> {
             nomJoueur.setText(nouveauJoueur.getNom());
             nomJoueur.setTextFill(Paint.valueOf(CouleursJoueurs.couleursBackgroundJoueur.get(nouveauJoueur.getCouleur())));
+            List<? extends IJoueur> joueurs = new ArrayList<>(jeu.getJoueurs());
+            joueurs.remove(nouveauJoueur);
+            vueAutresJoueurs = new VueAutresJoueurs(joueurs);
+            vueAutresJoueurs.creerBindings();
         });
 
         // Vue Joueur Courant
