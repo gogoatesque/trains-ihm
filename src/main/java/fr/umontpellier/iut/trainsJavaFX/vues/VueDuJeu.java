@@ -115,9 +115,19 @@ public class VueDuJeu extends BorderPane {
             nombreCarte.setStyle("-fx-background-color: white");
             StackPane stackPane = new StackPane();
             stackPane.getChildren().addAll(vueCarte, nombreCarte);
+            nombreCarte.setTranslateX(vueCarte.getHeight());
+            nombreCarte.setTranslateY(vueCarte.getWidth());
             boiteReserve.getChildren().add(stackPane);
             boiteReserve.setHgap(25);
             boiteReserve.setVgap(2);
+            stackPane.layoutBoundsProperty().addListener((obs, oldBounds, newBounds) -> {
+                double rotatedWidth = newBounds.getWidth(); // Ancienne hauteur
+                double rotatedHeight = newBounds.getHeight(); // Ancienne largeur
+
+                // Positionner le label en bas à droite après rotation
+                nombreCarte.setTranslateX(rotatedHeight / 2 - nombreCarte.getWidth() / 2);
+                nombreCarte.setTranslateY(rotatedWidth / 2 - nombreCarte.getHeight() / 2);
+            });
             stackPane.minHeightProperty().bind(boiteReserve.heightProperty().divide(7));
             stackPane.maxHeightProperty().bind(boiteReserve.heightProperty().divide(7));
             vueCarte.creerBindings();
