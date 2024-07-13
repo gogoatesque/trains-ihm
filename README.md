@@ -1,5 +1,3 @@
-![](ressources/logo.jpeg)
-
 # Projet _Trains -- IHM_
 
 Ce projet est une "suite" du projet Trains. 
